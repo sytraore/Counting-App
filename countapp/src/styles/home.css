@@ -1,0 +1,61 @@
+/* home.css */
+.home {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
+img{
+  max-height: 100vh;
+}
+
+.row {
+  width: 80%;
+  margin: 0 auto; /* Center the row within the container */
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center; /* Center buttons vertically */
+}
+
+.button {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 14px 24px;
+  border: none;
+  background: linear-gradient(to right, rgb(30, 140, 230) 0%, rgb(28, 121, 227) 50%, rgb(38, 127, 187) 100%);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  text-align: center; /* Center the text within the button */
+}
+
+.button a {
+  color: white;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: linear-gradient(to right, rgb(225, 22, 22) 0%, rgb(225, 14, 70) 50%, rgb(225, 10, 96) 100%);
+}
+
+.profileContainer{
+  position: absolute;
+  right: 15rem;
+  z-index: 2;
+}
+
+.profileButton{
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+}

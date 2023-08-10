@@ -1,0 +1,360 @@
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import "../styles/gamePage.css";
+import Data from "../data/data.js";
+import Tray1 from "../assests/TrayB.png";
+import Trill1 from "../assests/audio/1.mp3";
+import Trill2 from "../assests/audio/2.mp3";
+import Trill3 from "../assests/audio/3.mp3";
+import Trill4 from "../assests/audio/4.mp3";
+import Trill5 from "../assests/audio/5.mp3";
+import Trill6 from "../assests/audio/6.mp3";
+import Trill7 from "../assests/audio/7.mp3";
+import Trill8 from "../assests/audio/8.mp3";
+import Trill9 from "../assests/audio/9.mp3";
+import Trill10 from "../assests/audio/10.mp3";
+import total10 from "../assests/audio/CirclingT1.mp3"
+import total5 from "../assests/audio/CirclingT2.mp3"
+import BigBird from "../assests/BigBird.png";
+import greenTray from "../assests/greenTray.png";
+import purpleTray from "../assests/purpleTray.png"
+import "bootstrap/dist/css/bootstrap.css";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Animation from "../components/animation";
+
+const gamePage = () => {
+  const { page } = useParams();
+  const currentPage = parseInt(page);
+  const [cookieCount, setCookieCount] = useState(0);
+  const [showBigBird, setShowBigBird] = useState(false);
+  const [showTray2, setShowTray2] = useState(false);
+  const [selectedTray, setSelectedTray] = useState(null);
+  const [showMessage, setShowMessage] = useState(false);
+  const [activeCookieId, setActiveCookieId] = useState(1);
+  const [showGrayArea, setshowGrayArea] = useState(false);
+  const [isWiggling, setIsWiggling] = useState(false);
+  const [clickPositions, setClickPositions] = useState([]);
+  const spokenRef = useRef(false);
+  const spokenRef2 = useRef(false);
+  const apiKey = 'AIzaSyByB-Lfc_cDmyw2fg6nsJ2_KreRwuuwuNg';
+  const  voice = {languageCode: 'en-US', name :'en-US-Neural2-G' };
+  
+  const [startAnimation, setstartAnimation] = useState(false);
+
+  const handleAnimationFinish = () => {
+    
+    console.log('Animation finished2');
+    setTimeout(() => {
+        const audioElement2 = new Audio();
+        switch (Data.pages[currentPage].cookies.length) {
+          case 5:
+            audioElement2.src = total5;
+            break;
+          case 10:
+            audioElement2.src = total10;
+            break;
+          default:
+            return;
+        }
+        audioElement2.play();
+    
+        audioElement2.onended = () => {
+          if (!spokenRef2.current) {
+            setTimeout(() => {
+              setshowGrayArea(true);
+              setstartAnimation(false);
+              setShowMessage(true);
+              setShowBigBird(true);
+              setShowTray2(true);
+            
+              const utterance = `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`;
+              textToSpeech(utterance, apiKey, voice);
+              spokenRef2.current = true;
+            }, 1000);
+          }
+        };
+      }, 2000);
+      
+  };
+
+  const handleClick = (e) => {
+    const clickPosition = {
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      x: e.clientX,
+      y: e.clientY,
+    };
+    setClickPositions((prevClicks) => [...prevClicks, clickPosition]);
+    console.log(clickPositions)
+  };
+
+  const speakUtterance = () => {
+    const utterance = `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
+
+    setTimeout(() => {
+      textToSpeech(utterance,apiKey,voice)
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if (!spokenRef.current) {
+      speakUtterance();
+      spokenRef.current = true;
+    }
+  }, []);
+
+
+  const message = showMessage
+  ? `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`
+  : `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
+
+    const moveCircle = (id, currentPage) => {
+      setIsWiggling(true)
+      setTimeout(() => {
+        setIsWiggling(false);
+      }, 2000);
+      const totalCount = Data.pages[currentPage].cookies.length - 1;
+      const numericId = parseInt(id);
+    
+      if (cookieCount <= totalCount) {
+        if (numericId === activeCookieId) {
+          
+          if ("speechSynthesis" in window) {
+            const audioElement = new Audio();
+    
+            switch (id) {
+              case "1":
+                audioElement.src = Trill1;
+                break;
+              case "2":
+                audioElement.src = Trill2;
+                break;
+              case "3":
+                audioElement.src = Trill3;
+                break;
+              case "4":
+                audioElement.src = Trill4;
+                break;
+              case "5":
+                audioElement.src = Trill5;
+                break;
+              case "6":
+                audioElement.src = Trill6;
+                break;
+              case "7":
+                audioElement.src = Trill7;
+                break;
+              case "8":
+                audioElement.src = Trill8;
+                break;
+              case "9":
+                audioElement.src = Trill9;
+                break;
+              case "10":
+                audioElement.src = Trill10;
+                break;
+              default:
+                return;
+            }
+    
+            audioElement.play();
+    
+            if (cookieCount < totalCount) {
+              audioElement.onend = setTimeout(function () {
+                setCookieCount((prevCount) => prevCount + 1);
+                setActiveCookieId(numericId + 1);
+              }, 2200);
+            }
+            if (cookieCount === totalCount) {
+              audioElement.onend = setTimeout(function () {
+                setCookieCount((prevCount) => prevCount + 1);
+              }, 2200);
+            }
+          } else {
+            console.error("SpeechSynthesis API is not supported in this browser.");
+          }
+        }
+      }
+      if (cookieCount === totalCount) {
+        setActiveCookieId(null);
+        setstartAnimation(true);      
+      }
+    };
+    
+
+  const handleNextPage = () => {
+    if (currentPage < 3) {
+      setCookieCount(0)
+      setShowTray2(false);
+      setShowBigBird(false);
+      setShowMessage(false);
+      setActiveCookieId(1);
+      setshowGrayArea(false);
+      setSelectedTray(null);
+      spokenRef2.current = false;
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCookieCount(0)
+      setShowTray2(false);
+      setShowBigBird(false);
+      setShowMessage(false);
+      setActiveCookieId(1);
+      setshowGrayArea(false);
+      setSelectedTray(null);
+      spokenRef2.current = false;
+    }
+  };
+
+  const handleTrayClick = (trayType) => {
+    setSelectedTray(trayType);
+    console.log(trayType)
+  };
+
+  async function textToSpeech(utterance, apiKey,voice){
+    try {
+      const request = {
+        input: { text: utterance},
+        voice: voice,
+        audioConfig: { audioEncoding: 'MP3' },
+      };
+
+      const response = await fetch('https://texttospeech.googleapis.com/v1/text:synthesize?key=' + apiKey, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const audio = new Audio(`data:audio/mp3;base64,${data.audioContent}`);
+      audio.play();
+    } catch (error) {
+      console.error('Error in Google Text-to-Speech:', error);
+    }
+  }
+
+  return (
+    <div className="container" onClick={handleClick}>
+    <div className="row">
+      
+      <div className={showGrayArea? "col-4 cookiecol graybg" : "col-4 cookiecol"}>
+          {showGrayArea  && <div className="overlay"></div>}
+          <div className="background-container">
+            <img src={Tray1} alt="tray1"/>
+          </div>
+          <div className="card">
+            <div className="card-body">
+             {message}
+            </div>
+          </div>
+          <div className="cookieContainer position-absolute">
+            {Data.pages[currentPage].cookies.map((cookie) => (
+              <img
+                key={cookie.id}
+                src={cookie.img}
+                id={cookie.id}
+                className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && isWiggling ? "wiggle" : ""}`}
+                alt={`Cookie ${cookie.id}`}
+                onClick={() => moveCircle(cookie.id.toString(), currentPage)}
+                style={{
+                  position: "absolute",
+                  top: cookie.top,
+                  left: cookie.left,
+                }}
+              />
+            ))}
+          </div>
+          {startAnimation && (<div className="anim"><Animation onAnimationFinish={handleAnimationFinish}/></div>)}
+        </div>
+        <div className="col-8">
+          <div className="position-absolute tray-container">
+            {showTray2 && (
+              <div>
+              <div
+                className={`tray-overlay1 ${selectedTray === "greenTray" ? "glow1" : ""}`}
+                onClick={() => handleTrayClick("greenTray")}
+              />
+              <img
+                src={greenTray}
+                alt="greentray"
+                className="tray2"
+                id="greenTray"
+                key="greenTray"
+              />
+              <div className="greenBiscuits position-absolute">
+              {Data.pages[currentPage].greenTray[0].biscuits.map((biscuit) => (
+                <img
+                  key={biscuit.id}
+                  src={biscuit.img}
+                  id={biscuit.id}
+                  className="biscuits"
+                  style={{
+                    position: "absolute",
+                    top: biscuit.top,
+                    left: biscuit.left,
+                  }}
+                />
+              ))}
+              </div>
+            </div>
+            )}
+
+            {showTray2 && (
+              <div> 
+                <div
+                  className={`tray-overlay2 ${selectedTray === "purpleTray" ? "glow2" : ""}`}
+                  onClick={() => handleTrayClick("purpleTray")}
+                />      
+                <img
+                  src={purpleTray}
+                  className="tray3"
+                  id="purpleTray"
+                  key="purpleTray"
+                  alt="purpletray"
+                />
+              <div className="greenBiscuits position-absolute">
+              {Data.pages[currentPage].purpleTray[0].biscuits.map((biscuit) => (
+                <img
+                  key={biscuit.id}
+                  src={biscuit.img}
+                  id={biscuit.id}
+                  className="biscuits"
+                  style={{
+                    position: "absolute",
+                    top: biscuit.top,
+                    left: biscuit.left,
+                  }}
+                />
+              ))}
+              </div>
+            </div>
+            )}
+            {showBigBird && (
+              <img src={BigBird} className="bigBird" id="bigBird" key="bigBird" alt="bigbird"/>
+            )}
+          </div>
+          <div className="buttons">
+              {currentPage > 0 
+                ? (<button onClick={handlePreviousPage}><Link to={`/game/play/${currentPage - 1}`}><ArrowBackIosIcon /></Link></button>) 
+                : (<button disabled> <ArrowBackIosIcon /></button>)}
+              {currentPage < 3 
+                ?  ( <button onClick={handleNextPage}><Link to={`/game/play/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
+                : (<button> <Link to="/game/home"><ArrowForwardIosIcon /></Link></button>)}
+          </div>
+        </div>
+      </div>
+      </div>
+  );
+};
+
+export default gamePage;

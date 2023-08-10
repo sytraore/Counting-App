@@ -1,0 +1,126 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import "../styles/training.css";
+import trainData from  "../data/trainData.js";
+import ImageContainer from '../components/imageContainer';
+import Tray1 from "../assests/TrayB.png";
+import BigBird from "../assests/BigBird.png";
+import greenTray from "../assests/greenTray.png";
+import purpleTray from "../assests/purpleTray.png"
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
+
+function training() {
+    const { page } = useParams();
+    const currentPage = parseInt(page);
+
+  return (
+    <div className='container'>
+     {currentPage < 5 ? (
+        <div className='container'>
+          <ImageContainer currentpage={currentPage}/>
+        </div>
+      ) : (
+    <div className='row'>
+      <div className='col-4  cookiecol'>
+         <div className="background-container">
+            <img src={Tray1} alt="tray1" className='tray1'/>
+          </div>
+          <div className="card">
+            <div className="card-body">
+            {trainData.pages[currentPage].message}
+            </div>
+          </div>
+          <div className="cookieContainer position-absolute">
+          {trainData.pages[currentPage].cookies.length > 0 
+            ? (trainData.pages[currentPage].cookies.map((cookie) => (
+              <img
+                key={cookie.id}
+                src={cookie.img}
+                id={cookie.id}
+                alt={`Cookie ${cookie.id}`}
+                style={{
+                  position: "absolute",
+                  top: cookie.top,
+                  left: cookie.left,
+                }}
+              />
+            )))
+            : (<p></p>)}
+          </div>
+          </div>
+          <div className='col-8'>
+            <div className='position-absolute tray-container'>
+              <div>
+            <img
+                src={greenTray}
+                alt="greentray"
+                className="tray2"
+                id="greenTray"
+                key="greenTray"
+              />
+              <div className="biscuitContainer position-absolute">
+              {trainData.pages[currentPage].greenTray[0].biscuits.length > 0 
+                ? (trainData.pages[currentPage].greenTray[0].biscuits.map((biscuit) => (
+                <img
+                  key={biscuit.id}
+                  src={biscuit.img}
+                  id={biscuit.id}
+                  className="biscuits"
+                  style={{
+                    position: "absolute",
+                    top: biscuit.top,
+                    left: biscuit.left,
+                  }}
+                />
+              ))) 
+                : (<p></p>)}
+              </div>
+              </div>
+              <div>
+              <img
+                  src={purpleTray}
+                  className="tray3"
+                  id="purpleTray"
+                  key="purpleTray"
+                  alt="purpletray"
+                />
+              <div className="biscuitContainer position-absolute">
+              {trainData.pages[currentPage].purpleTray[0].biscuits.length > 0
+                ? (trainData.pages[currentPage].purpleTray[0].biscuits.map((biscuit) => (
+                <img
+                  key={biscuit.id}
+                  src={biscuit.img}
+                  id={biscuit.id}
+                  className="biscuits"
+                  style={{
+                    position: "absolute",
+                    top: biscuit.top,
+                    left: biscuit.left,
+                  }}
+                />
+              )))
+              : (<p></p>)}
+              </div>
+              </div>
+              <img src={BigBird} className="bigBird" id="bigBird" key="bigBird" alt="bigbird"/>
+              
+            </div>
+            </div>
+            </div>
+          )}
+            <div className="buttons">
+              {currentPage > 0 
+                ? (<button><Link to={`/game/train/${currentPage - 1}`}><ArrowBackIosIcon /></Link></button>) 
+                : (<button disabled> <ArrowBackIosIcon /></button>)}
+              {currentPage < 12 
+                ?  ( <button><Link to={`/game/train/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
+                : (<button> <Link to="/game/home"><ArrowForwardIosIcon /></Link></button>)}
+          </div>
+    </div>
+  )
+}
+
+export default training
