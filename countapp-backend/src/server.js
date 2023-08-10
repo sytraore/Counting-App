@@ -21,11 +21,11 @@ app.post("/register", async (req, res) => {
     try {
       await User.create({
         uname: name,
-        answer1: false,
-        answer2:false,
+        answer0: false,
+        answer1:false,
+        answer2: false,
         answer3: false,
         answer4: false,
-        answer5: false,
         totalScore: 0,
       });
       console.log(User)
