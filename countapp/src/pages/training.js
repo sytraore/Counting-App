@@ -10,7 +10,7 @@ import greenTray from "../assests/greenTray.png";
 import purpleTray from "../assests/purpleTray.png"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useSound } from '../components/SoundContext';
+import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
 
 

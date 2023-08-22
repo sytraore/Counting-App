@@ -23,7 +23,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Animation from "../components/animation";
-import { useSound } from '../components/SoundContext';
+import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
 
 const gamePage = () => {

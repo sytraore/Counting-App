@@ -6,7 +6,7 @@ import image3 from "../assests/image3.jpg";
 import "bootstrap/dist/css/bootstrap.css";
 import Profile from '../components/profile';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useSound } from '../components/SoundContext';
+import { useSound } from '../helpers/SoundContext';
 
 function Home() {
   const [userData, setuserData] = useState('');

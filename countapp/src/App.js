@@ -5,7 +5,7 @@ import GamePage from './pages/gamepage'
 import TrainPage from './pages/training';
 import PracticePage from './pages/practice';
 import SignupPage from './pages/signupPage';
-import { SoundProvider } from './components/SoundContext';
+import { SoundProvider } from './helpers/SoundContext';
 import './App.css';
 
 function App() {
