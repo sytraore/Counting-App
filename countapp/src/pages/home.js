@@ -6,10 +6,13 @@ import image3 from "../assests/image3.jpg";
 import "bootstrap/dist/css/bootstrap.css";
 import Profile from '../components/profile';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useSound } from '../components/SoundContext';
 
 function Home() {
   const [userData, setuserData] = useState('');
   const [profileOpen, setProfileOpen] = useState(false);
+  const { soundEnabled, setSoundEnabled } = useSound();
+  const [textToSpeechEnabled, setTextToSpeechEnabled] = useState(soundEnabled);
 
   useEffect(() => {
     const token = window.localStorage.getItem('token');
@@ -37,10 +40,29 @@ function Home() {
   const handleProfileClick = () => {
     setProfileOpen(!profileOpen);
   };
-  
+
+  const handleToggle = () => {
+    setTextToSpeechEnabled(!textToSpeechEnabled);
+    setSoundEnabled(!textToSpeechEnabled); 
+  };
+
 
   return (
     <div className='home'>
+      <div className='toggle'>
+      <label className="toggle-label">
+        Enable Sound:
+        <div className="toggle-switch">
+          <input
+            type="checkbox"
+            className="toggle-checkbox"
+            checked={textToSpeechEnabled}
+            onChange={handleToggle}
+          />
+          <div className="toggle-slider"></div>
+        </div>
+      </label>
+      </div>
       <div className="profileButton"><button onClick={handleProfileClick}><AccountCircleIcon /></button> </div>
           {profileOpen && <div className='profileContainer'><Profile name={userData.uname} /></div>}
       <div className='row'>

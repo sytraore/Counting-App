@@ -23,6 +23,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Animation from "../components/animation";
+import { useSound } from '../components/SoundContext';
 
 const gamePage = () => {
   const { page } = useParams();
@@ -38,6 +39,7 @@ const gamePage = () => {
   const [clickPositions, setClickPositions] = useState([]);
   const spokenRef = useRef(false);
   const spokenRef2 = useRef(false);
+  const { soundEnabled } = useSound();
   const apiKey = 'AIzaSyByB-Lfc_cDmyw2fg6nsJ2_KreRwuuwuNg';
   const  voice = {languageCode: 'en-US', name :'en-US-Neural2-G' };
   
@@ -45,7 +47,6 @@ const gamePage = () => {
 
   const handleAnimationFinish = () => {
     
-    console.log('Animation finished2');
     setTimeout(() => {
         const audioElement2 = new Audio();
         switch (Data.pages[currentPage].cookies.length) {
@@ -68,9 +69,11 @@ const gamePage = () => {
               setShowMessage(true);
               setShowBigBird(true);
               setShowTray2(true);
-            
+
+              if (soundEnabled) {
               const utterance = `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`;
               textToSpeech(utterance, apiKey, voice);
+              }
               spokenRef2.current = true;
             }, 1000);
           }
@@ -91,11 +94,13 @@ const gamePage = () => {
   };
 
   const speakUtterance = () => {
+    if(soundEnabled){
     const utterance = `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
 
     setTimeout(() => {
       textToSpeech(utterance,apiKey,voice)
     }, 1000);
+  }
   };
 
   useEffect(() => {

@@ -39,4 +39,4 @@ function practice() {
   )
 }
 
-export default practice
+export default practice;

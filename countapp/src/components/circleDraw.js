@@ -24,6 +24,7 @@ function Canvas({ onAnimationFinish }) {
       const { left, top } = canvas.getBoundingClientRect();
       const x = clientX - left;
       const y = clientY - top;
+      context.lineWidth = 5;
       context.lineTo(x, y);
       context.stroke();
     }
