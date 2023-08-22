@@ -24,6 +24,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Animation from "../components/animation";
 import { useSound } from '../components/SoundContext';
+import { textToSpeech } from '../helpers/textToSpeech';
 
 const gamePage = () => {
   const { page } = useParams();
@@ -40,8 +41,6 @@ const gamePage = () => {
   const spokenRef = useRef(false);
   const spokenRef2 = useRef(false);
   const { soundEnabled } = useSound();
-  const apiKey = 'AIzaSyByB-Lfc_cDmyw2fg6nsJ2_KreRwuuwuNg';
-  const  voice = {languageCode: 'en-US', name :'en-US-Neural2-G' };
   
   const [startAnimation, setstartAnimation] = useState(false);
 
@@ -72,7 +71,7 @@ const gamePage = () => {
 
               if (soundEnabled) {
               const utterance = `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`;
-              textToSpeech(utterance, apiKey, voice);
+              textToSpeech(utterance);
               }
               spokenRef2.current = true;
             }, 1000);
@@ -98,7 +97,7 @@ const gamePage = () => {
     const utterance = `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
 
     setTimeout(() => {
-      textToSpeech(utterance,apiKey,voice)
+      textToSpeech(utterance)
     }, 1000);
   }
   };
@@ -108,7 +107,7 @@ const gamePage = () => {
       speakUtterance();
       spokenRef.current = true;
     }
-  }, []);
+  }, [currentPage]);
 
 
   const message = showMessage
@@ -198,6 +197,7 @@ const gamePage = () => {
       setActiveCookieId(1);
       setshowGrayArea(false);
       setSelectedTray(null);
+      spokenRef.current = false;
       spokenRef2.current = false;
     }
   };
@@ -211,6 +211,7 @@ const gamePage = () => {
       setActiveCookieId(1);
       setshowGrayArea(false);
       setSelectedTray(null);
+      spokenRef.current = false;
       spokenRef2.current = false;
     }
   };
@@ -219,34 +220,6 @@ const gamePage = () => {
     setSelectedTray(trayType);
     console.log(trayType)
   };
-
-  async function textToSpeech(utterance, apiKey,voice){
-    try {
-      const request = {
-        input: { text: utterance},
-        voice: voice,
-        audioConfig: { audioEncoding: 'MP3' },
-      };
-
-      const response = await fetch('https://texttospeech.googleapis.com/v1/text:synthesize?key=' + apiKey, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(request),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const audio = new Audio(`data:audio/mp3;base64,${data.audioContent}`);
-      audio.play();
-    } catch (error) {
-      console.error('Error in Google Text-to-Speech:', error);
-    }
-  }
 
   return (
     <div className="container" onClick={handleClick}>

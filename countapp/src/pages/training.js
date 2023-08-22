@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import "../styles/training.css";
@@ -10,11 +10,44 @@ import greenTray from "../assests/greenTray.png";
 import purpleTray from "../assests/purpleTray.png"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useSound } from '../components/SoundContext';
+import { textToSpeech } from '../helpers/textToSpeech';
 
 
 function training() {
     const { page } = useParams();
     const currentPage = parseInt(page);
+    const { soundEnabled } = useSound();
+    const messageRef = useRef(false);
+
+    const speakMessage = () => {
+      if(soundEnabled){
+      const utterance = `${trainData.pages[currentPage].message[0]}`;
+  
+      setTimeout(() => {
+        textToSpeech(utterance)
+      }, 1000);
+    }
+    };
+  
+    useEffect(() => {
+      if (!messageRef.current) {
+        speakMessage();
+        messageRef.current = true;
+      }
+    }, [currentPage]);
+
+    const handleNextPage = () => {
+      if (currentPage < 12) {
+        messageRef.current = false;
+      }
+    };
+  
+    const handlePreviousPage = () => {
+      if (currentPage > 0) {
+        messageRef.current = false;
+      }
+    };
 
   return (
     <div className='container'>
@@ -113,10 +146,10 @@ function training() {
           )}
             <div className="buttons">
               {currentPage > 0 
-                ? (<button><Link to={`/game/train/${currentPage - 1}`}><ArrowBackIosIcon /></Link></button>) 
+                ? (<button onClick={handlePreviousPage}><Link to={`/game/train/${currentPage - 1}`}><ArrowBackIosIcon /></Link></button>) 
                 : (<button disabled> <ArrowBackIosIcon /></button>)}
               {currentPage < 12 
-                ?  ( <button><Link to={`/game/train/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
+                ?  ( <button  onClick={handleNextPage}><Link to={`/game/train/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
                 : (<button> <Link to="/game/home"><ArrowForwardIosIcon /></Link></button>)}
           </div>
     </div>
