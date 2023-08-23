@@ -1,4 +1,4 @@
-import React, {useRef, useEffect } from 'react';
+import React, {useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import "../styles/training.css";
@@ -12,6 +12,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
+import DialogBox from "../components/dialogBox";
 
 
 function training() {
@@ -19,6 +20,7 @@ function training() {
     const currentPage = parseInt(page);
     const { soundEnabled } = useSound();
     const messageRef = useRef(false);
+    const [modalShow, setModalShow] = useState(false);
 
     const speakMessage = () => {
       if(soundEnabled){
@@ -150,7 +152,8 @@ function training() {
                 : (<button disabled> <ArrowBackIosIcon /></button>)}
               {currentPage < 12 
                 ?  ( <button  onClick={handleNextPage}><Link to={`/game/train/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
-                : (<button> <Link to="/game/home"><ArrowForwardIosIcon /></Link></button>)}
+                : (<button onClick={() => setModalShow(true)}> <ArrowForwardIosIcon /></button>)}
+                  <DialogBox show={modalShow} onHide={() => setModalShow(false)} page="play"/>
           </div>
     </div>
   )

@@ -25,6 +25,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Animation from "../components/animation";
 import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
+import DialogBox from "../components/dialogBox";
 
 const gamePage = () => {
   const { page } = useParams();
@@ -41,7 +42,7 @@ const gamePage = () => {
   const spokenRef = useRef(false);
   const spokenRef2 = useRef(false);
   const { soundEnabled } = useSound();
-  
+  const [modalShow, setModalShow] = useState(false);
   const [startAnimation, setstartAnimation] = useState(false);
 
   const handleAnimationFinish = () => {
@@ -327,7 +328,8 @@ const gamePage = () => {
                 : (<button disabled> <ArrowBackIosIcon /></button>)}
               {currentPage < 3 
                 ?  ( <button onClick={handleNextPage}><Link to={`/game/play/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
-                : (<button> <Link to="/game/home"><ArrowForwardIosIcon /></Link></button>)}
+                : (<button onClick={() => setModalShow(true)}> <ArrowForwardIosIcon /></button>)}
+                  <DialogBox show={modalShow} onHide={() => setModalShow(false)} page="practice"/>
           </div>
         </div>
       </div>
