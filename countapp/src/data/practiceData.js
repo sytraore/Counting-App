@@ -219,6 +219,204 @@ const practiceData = {
       height: "250px"
     },
   ],
+},{
+  animals: [
+    {
+      id: 1,
+      img: require("../assests/animals/horse.png"),
+      top: "10%",
+      left: "10%",
+      height: "170px"
+    },
+    {
+      id: 2,
+      img: require("../assests/animals/horse.png"),
+      top: "5%",
+      left: "40%",
+      height: "150px"
+    },
+    {
+      id: 3,
+      img: require("../assests/animals/horse.png"),
+      top: "5%",
+      left: "70%",
+      height: "150px"
+    },    
+    {
+      id: 4,
+      img: require("../assests/animals/horse.png"),
+      top: "38%",
+      left: "5%",
+      height: "200px"
+    },
+    {
+      id: 5,
+      img: require("../assests/animals/horse.png"),
+      top: "50%",
+      left: "30%",
+      height: "250px"
+    },
+    {
+      id: 6,
+      img: require("../assests/animals/horse.png"),
+      top: "30%",
+      left: "50%",
+      height: "280px"
+    },
+    {
+      id: 7,
+      img: require("../assests/animals/horse.png"),
+      top: "70%",
+      left: "5%",
+      height: "150px"
+    },,
+    {
+      id: 8,
+      img: require("../assests/animals/horse.png"),
+      top: "75%",
+      left: "60%",
+      height: "120px"
+    },
+    {
+      id: 9,
+      img: require("../assests/animals/horse.png"),
+      top: "75%",
+      left: "75%",
+      height: "130px"
+    },
+  ],
+},{
+  animals: [
+    {
+      id: 1,
+      img: require("../assests/animals/hippo.png"),
+      top: "10%",
+      left: "10%",
+      height: "200px"
+    },
+    {
+      id: 2,
+      img: require("../assests/animals/hippo.png"),
+      top: "10%",
+      left: "35%",
+      height: "150px"
+    },
+    {
+      id: 3,
+      img: require("../assests/animals/hippo.png"),
+      top: "25%",
+      left: "50%",
+      height: "190px"
+    },    
+    {
+      id: 4,
+      img: require("../assests/animals/hippo.png"),
+      top: "10%",
+      left: "70%",
+      height: "150px"
+    },
+    {
+      id: 5,
+      img: require("../assests/animals/hippo.png"),
+      top: "40%",
+      left: "25%",
+      height: "130px"
+    },
+    {
+      id: 6,
+      img: require("../assests/animals/hippo.png"),
+      top: "60%",
+      left: "10%",
+      height: "200px"
+    },
+    {
+      id: 7,
+      img: require("../assests/animals/hippo.png"),
+      top: "60%",
+      left: "35%",
+      height: "150px"
+    },,
+    {
+      id: 8,
+      img: require("../assests/animals/hippo.png"),
+      top: "60%",
+      left: "60%",
+      height: "220px"
+    },
+  ],
+},{
+  animals: [
+    {
+      id: 1,
+      img: require("../assests/animals/octopus.png"),
+      top: "15%",
+      left: "15%",
+      height: "130px"
+    },
+    {
+      id: 2,
+      img: require("../assests/animals/octopus.png"),
+      top: "15%",
+      left: "33%",
+      height: "250px"
+    },
+    {
+      id: 3,
+      img: require("../assests/animals/octopus.png"),
+      top: "10%",
+      left: "55%",
+      height: "150px"
+    },    
+    {
+      id: 4,
+      img: require("../assests/animals/octopus.png"),
+      top: "10%",
+      left: "70%",
+      height: "150px"
+    },
+    {
+      id: 5,
+      img: require("../assests/animals/octopus.png"),
+      top: "40%",
+      left: "20%",
+      height: "160px"
+    },
+    {
+      id: 6,
+      img: require("../assests/animals/octopus.png"),
+      top: "40%",
+      left: "50%",
+      height: "130px"
+    },
+    {
+      id: 7,
+      img: require("../assests/animals/octopus.png"),
+      top: "60%",
+      left: "70%",
+      height: "250px"
+    },,
+    {
+      id: 8,
+      img: require("../assests/animals/octopus.png"),
+      top: "65%",
+      left: "10%",
+      height: "180px"
+    },
+    {
+      id: 9,
+      img: require("../assests/animals/octopus.png"),
+      top: "60%",
+      left: "35%",
+      height: "190px"
+    },    
+    {
+      id: 10,
+      img: require("../assests/animals/octopus.png"),
+      top: "65%",
+      left: "50%",
+      height: "170px"
+    },
+  ],
 },
 {
   animals: [
