@@ -22,6 +22,7 @@ import purpleTray from "../assests/purpleTray.png"
 import "bootstrap/dist/css/bootstrap.css";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import Animation from "../components/animation";
 import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
@@ -332,6 +333,7 @@ const gamePage = () => {
                   <DialogBox show={modalShow} onHide={() => setModalShow(false)} page="practice"/>
           </div>
       </div>
+      <div><button className="homeLogo"><Link to={`/game/home`}><HomeRoundedIcon /></Link></button></div>
       </div>
   );
 };

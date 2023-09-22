@@ -13,6 +13,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 
 function training() {
@@ -153,6 +154,7 @@ function training() {
                 : (<button onClick={() => setModalShow(true)}> <ArrowForwardIosIcon /></button>)}
                   <DialogBox show={modalShow} onHide={() => setModalShow(false)} page="play"/>
           </div>
+          <div><button className="homeLogo"><Link to={`/game/home`}><HomeRoundedIcon /></Link></button></div>
           </div>
   )
 }

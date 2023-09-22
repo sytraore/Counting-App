@@ -219,3 +219,17 @@
 .glow2 {
   box-shadow: 0 0 15px 8px rgb(239, 55, 239);
 }
+
+
+.homeLogo{
+  position: fixed;
+  right: 2%;
+  top: 2%;
+  border: solid black;
+  border-radius: 50%;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+}

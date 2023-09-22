@@ -5,6 +5,7 @@ import "../styles/practice.css";
 import practiceData from '../data/practiceData';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 function practice() {
     const { page } = useParams();
@@ -35,6 +36,8 @@ function practice() {
                 ?  ( <button><Link to={`/game/practice/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
                 : (<button> <Link to="/game/home"><ArrowForwardIosIcon /></Link></button>)}
           </div>
+
+          <div><button className="homeLogo"><Link to={`/game/home`}><HomeRoundedIcon /></Link></button></div>
         </div>
   )
 }
