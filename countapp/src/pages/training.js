@@ -59,7 +59,7 @@ function training() {
         </div>
       ) : (
     <div className='row'>
-      <div className='col-4  cookiecol'>
+      <div className='col-2  cookiecol'>
          <div className="background-container">
             <img src={Tray1} alt="tray1" className='tray1'/>
           </div>
@@ -85,9 +85,8 @@ function training() {
             )))
             : (<p></p>)}
           </div>
-          </div>
-          <div className='col-8'>
-            <div className='position-absolute tray-container'>
+        </div>
+            <div className='col-8 position-absolute tray-container'>
               <div>
             <img
                 src={greenTray}
@@ -114,6 +113,7 @@ function training() {
                 : (<p></p>)}
               </div>
               </div>
+
               <div>
               <img
                   src={purpleTray}
@@ -141,10 +141,8 @@ function training() {
               </div>
               </div>
               <img src={BigBird} className="bigBird" id="bigBird" key="bigBird" alt="bigbird"/>
-              
-            </div>
-            </div>
-            </div>
+        </div>
+    </div>
           )}
             <div className="buttons">
               {currentPage > 0 
@@ -155,7 +153,7 @@ function training() {
                 : (<button onClick={() => setModalShow(true)}> <ArrowForwardIosIcon /></button>)}
                   <DialogBox show={modalShow} onHide={() => setModalShow(false)} page="play"/>
           </div>
-    </div>
+          </div>
   )
 }
 

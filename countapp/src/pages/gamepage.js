@@ -255,8 +255,8 @@ const gamePage = () => {
           </div>
           {startAnimation && (<div className="anim"><Animation onAnimationFinish={handleAnimationFinish}/></div>)}
         </div>
-        <div className="col-8">
-          <div className="position-absolute tray-container">
+
+          <div className="col-8 position-absolute tray-container">
             {showTray2 && (
               <div>
               <div
@@ -331,7 +331,6 @@ const gamePage = () => {
                 : (<button onClick={() => setModalShow(true)}> <ArrowForwardIosIcon /></button>)}
                   <DialogBox show={modalShow} onHide={() => setModalShow(false)} page="practice"/>
           </div>
-        </div>
       </div>
       </div>
   );
