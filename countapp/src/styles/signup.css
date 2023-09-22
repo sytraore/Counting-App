@@ -8,15 +8,20 @@
   .signupcard {
     top: 10%;
     left: 15%;
-    width: 800px; /* Adjust the card width as needed */
+    width: 750px; /* Adjust the card width as needed */
     height: 490px;
-    display: flex; /* Display children in a row */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+  }
+
+  .row-signup{
+    width: 750px; /* Adjust the card width as needed */
+    height: 490px;
   }
   
   .left-column {
-    flex: 1; /* Take up available space */
     position: relative;
+    width: 375px; /* Adjust the card width as needed */
+    height: 480px;
   }
   
   .left-column img {
@@ -26,11 +31,12 @@
   }
   
   .right-column {
-    flex: 1; /* Take up available space */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 375px; /* Adjust the card width as needed */
+    height: 490px;
   }
 
   .form-group {

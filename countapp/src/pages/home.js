@@ -65,14 +65,11 @@ function Home() {
       </div>
       <div className="profileButton"><button onClick={handleProfileClick}><AccountCircleIcon /></button> </div>
           {profileOpen && <div className='profileContainer'><Profile name={userData.uname} /></div>}
-      <div className='row'>
-        <div className='col-md-8'>
-          <img src={image3} alt="image3" className="img-fluid" />
-        </div>
-        <div className='col-md-4 buttons-container'>
-          <button className="button btn-lg btn-block"><Link to="/game/train/0">Training</Link></button>
-          <button className="button btn-lg btn-block"><Link to="/game/play/0">Start Game</Link></button>
-          <button className="button btn-lg btn-block"><Link to="/game/practice/0">Practice Counting</Link></button>
+      <div className='row centered-row'>
+        <div className='menu-container'>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/train/0">Training</Link></button>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/play/0">Start Game</Link></button>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/practice/0">Practice Counting</Link></button>
         </div>
       </div>
     </div>

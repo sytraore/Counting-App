@@ -1,13 +1,25 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../styles/profile.css';
 import profileicon from '../assests/profileicon.png'
 
 function profile({name}) {
 
-    const handleLogout = () => {
-        window.localStorage.clear();
-      };
+  const navigate = useNavigate();
+
+  const handleLogout = (callback) => {
+    window.localStorage.clear();
+    if (typeof callback === 'function') {
+      callback();
+    }
+  };
+
+  const handleLogoutClick = () => {
+    handleLogout(() => {
+      navigate('/');
+    });
+  };
 
   return (
     <div>
@@ -19,7 +31,7 @@ function profile({name}) {
             </button>
             <span className="name mt-3">{name}</span>
             <div className=" d-flex mt-2">
-            <button className="btn1 btn-dark" onClick={handleLogout}><Link to="/">Log Out</Link></button>
+            <button className="btn1 btn-dark" onClick={handleLogoutClick}><Link to="/">Log Out</Link></button>
             </div>
           </div>
         </div>

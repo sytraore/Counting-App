@@ -193,11 +193,11 @@
 .tray-overlay1 {
   position: absolute;
   top: 0;
-  left: 15px;
   width:272px;
   height: 390px;
   cursor: pointer;
   z-index: 5;
+  margin-left: 13px;
   border-radius: 50px;
 }
 
