@@ -7,6 +7,7 @@ import TrainPage from './pages/training';
 import PracticePage from './pages/practice';
 import SignupPage from './pages/signupPage';
 import { SoundProvider } from './helpers/SoundContext';
+import TouchData from './helpers/touchdata';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <div className="App">
       <SoundProvider>
       <Router>
+        <TouchData />
         <Routes>
           <Route path='/' element={isLoggedIn == "true"? <Home /> : <SignupPage />}/>
           <Route path='/game/home' element={<Home />}/>

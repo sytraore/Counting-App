@@ -96,6 +96,13 @@ app.post("/register", async (req, res) => {
   });
 
 
+  app.post('/touchdata', (req, res) => {
+    const touchData = req.body.touchData;
+    console.log('Received touch data from the client:', touchData);
+    res.sendStatus(200); 
+  });
+
+
 
 
 const PORT = 8000;

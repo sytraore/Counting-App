@@ -39,7 +39,6 @@ const gamePage = () => {
   const [activeCookieId, setActiveCookieId] = useState(1);
   const [showGrayArea, setshowGrayArea] = useState(false);
   const [isWiggling, setIsWiggling] = useState(false);
-  const [clickPositions, setClickPositions] = useState([]);
   const spokenRef = useRef(false);
   const spokenRef2 = useRef(false);
   const { soundEnabled } = useSound();
@@ -81,17 +80,6 @@ const gamePage = () => {
         };
       }, 2000);
       
-  };
-
-  const handleClick = (e) => {
-    const clickPosition = {
-      date: new Date().toLocaleDateString(),
-      time: new Date().toLocaleTimeString(),
-      x: e.clientX,
-      y: e.clientY,
-    };
-    setClickPositions((prevClicks) => [...prevClicks, clickPosition]);
-    console.log(clickPositions)
   };
 
   const speakUtterance = () => {
@@ -224,7 +212,7 @@ const gamePage = () => {
   };
 
   return (
-    <div className="container" onClick={handleClick}>
+    <div className="container">
     <div className="row">
       
       <div className={showGrayArea? "col-4 cookiecol graybg" : "col-4 cookiecol"}>
