@@ -27,6 +27,7 @@ import Animation from "../components/animation";
 import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
+import {handleInteraction, handleNextClickGame} from '../helpers/imageTouchData';
 
 const gamePage = () => {
   const { page } = useParams();
@@ -41,9 +42,11 @@ const gamePage = () => {
   const [isWiggling, setIsWiggling] = useState(false);
   const spokenRef = useRef(false);
   const spokenRef2 = useRef(false);
+  const once = useRef(false);
   const { soundEnabled } = useSound();
   const [modalShow, setModalShow] = useState(false);
   const [startAnimation, setstartAnimation] = useState(false);
+  const [touchData, setTouchData] = useState([]);
 
   const handleAnimationFinish = () => {
     
@@ -98,6 +101,22 @@ const gamePage = () => {
       spokenRef.current = true;
     }
   }, [currentPage]);
+
+  useEffect(() => {
+    if(!once.current){
+      document.addEventListener('touchstart', (event) => {
+        handleInteraction(event, setTouchData);
+      });
+
+      once.current = true
+  
+      return () => {
+        document.removeEventListener('touchstart', (event) => {
+          handleInteraction(event, setTouchData);
+        });
+      };
+    }
+  }, []);
 
 
   const message = showMessage
@@ -189,6 +208,7 @@ const gamePage = () => {
       setSelectedTray(null);
       spokenRef.current = false;
       spokenRef2.current = false;
+      handleNextClickGame(touchData);
     }
   };
 

@@ -3,8 +3,7 @@ import express from 'express';
 import './data/userDetails.js';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-
-
+import fs from 'fs';
 
 const app = express();
 app.use(express.json());
@@ -96,12 +95,53 @@ app.post("/register", async (req, res) => {
   });
 
 
-  app.post('/touchdata', (req, res) => {
-    const touchData = req.body.touchData;
-    console.log('Received touch data from the client:', touchData);
-    res.sendStatus(200); 
+  app.post('/saveTrainingTouchData', (req, res) => {
+    try {
+      console.log('Received request with body:', req.body);
+      const { touchData } = req.body; 
+      console.log('Parsed touch data:', touchData);
+  
+      fs.writeFileSync('src/data/TrainingTouchData.txt', JSON.stringify(touchData));
+  
+      res.status(200).send('Touch data saved successfully.');
+    } catch (error) {
+      console.error('Error saving touch data:', error);
+      res.status(500).send('Error saving touch data.');
+    }
   });
 
+
+  app.post('/saveGameTouchData', (req, res) => {
+    try {
+      console.log('Received request with body:', req.body);
+      const { touchData } = req.body; 
+      console.log('Parsed touch data:', touchData);
+  
+      fs.writeFileSync('src/data/GameTouchData.txt', JSON.stringify(touchData));
+  
+      res.status(200).send('Touch data saved successfully.');
+    } catch (error) {
+      console.error('Error saving touch data:', error);
+      res.status(500).send('Error saving touch data.');
+    }
+  });
+
+  app.post('/savePracticeTouchData', (req, res) => {
+    try {
+      console.log('Received request with body:', req.body);
+      const { touchData } = req.body; 
+      console.log('Parsed touch data:', touchData);
+  
+      fs.writeFileSync('src/data/PracticeTouchData.txt', JSON.stringify(touchData));
+  
+      res.status(200).send('Touch data saved successfully.');
+    } catch (error) {
+      console.error('Error saving touch data:', error);
+      res.status(500).send('Error saving touch data.');
+    }
+  });
+  
+  
 
 
 

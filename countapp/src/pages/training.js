@@ -14,6 +14,7 @@ import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import {handleInteraction, handleNextClickTraining} from '../helpers/imageTouchData';
 
 
 function training() {
@@ -22,6 +23,25 @@ function training() {
     const { soundEnabled } = useSound();
     const messageRef = useRef(false);
     const [modalShow, setModalShow] = useState(false);
+    const [touchData, setTouchData] = useState([]);
+    const once = useRef(false)
+
+
+    useEffect(() => {
+      if(!once.current){
+        document.addEventListener('touchstart', (event) => {
+          handleInteraction(event, setTouchData);
+        });
+  
+        once.current = true
+    
+        return () => {
+          document.removeEventListener('touchstart', (event) => {
+            handleInteraction(event, setTouchData);
+          });
+        };
+      }
+    }, []);
 
     const speakMessage = () => {
       if(soundEnabled){
@@ -43,6 +63,7 @@ function training() {
     const handleNextPage = () => {
       if (currentPage < 12) {
         messageRef.current = false;
+        handleNextClickTraining(touchData);
       }
     };
   

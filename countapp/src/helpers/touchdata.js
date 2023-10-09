@@ -1,52 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from "axios";
+// import React, { useEffect, useState } from 'react';
+// import { useLocation } from 'react-router-dom';
+// import axios from 'axios';
 
-const TouchData = () => {
-  const [touchData, setTouchData] = useState({});
-  const location = useLocation();
 
-  const updateTouchData = (touchX, touchY) => {
-    const currentPage = location.pathname;
-    const date = new Date().toLocaleDateString();
-    const time = new Date().toLocaleTimeString();
+// const handleNextButtonClick = (touchData) => {
+//   if (Object.keys(touchData).length > 0) {
+//     axios
+//       .post('/touchdata', { touchData })
+//       .then((response) => {
+//         console.log('Touch data sent to the backend successfully:', response.data);
+//       })
+//       .catch((error) => {
+//         console.error('Error sending touch data to the backend:', error);
+//       });
+//   }
+// };
 
-    setTouchData((prevData) => ({
-      ...prevData,
-      [currentPage]: [...(prevData[currentPage] || []), { x: touchX, y: touchY, date: date, time: time }],
-    }));
-  };
+// const TouchData = () => {
+//   const [touchData, setTouchData] = useState({});
+//   const location = useLocation();
 
-  useEffect(() => {
-    const handleTouchStart = (event) => {
-      const touch = event.touches[0];
-      const touchX = touch.clientX;
-      const touchY = touch.clientY;
+//   const updateTouchData = (touchX, touchY, target) => {
+//     const currentPage = location.pathname;
+//     const date = new Date().toLocaleDateString();
+//     const currentTime = new Date();
+//     const milliseconds = currentTime.getMilliseconds();
+//     const formattedTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}:${milliseconds}`;
 
-      updateTouchData(touchX, touchY);
-    };
+//     const interaction = {
+//       x: touchX,
+//       y: touchY,
+//       date: date,
+//       time: formattedTime,
+//       name:"random "
+//     };
 
-    window.addEventListener('touchstart', handleTouchStart, { passive: false });
+//     // Check if the touch event target is an image
+//     if (target && target.tagName && target.tagName.toLowerCase() === 'img') {
+//       const imageId = target.id;
+//       const imageName = target.getAttribute('alt'); 
 
-    return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-    };
-  }, []);
+//       interaction.id = imageId;
+//       interaction.name = imageName;
+//     }
 
-  useEffect(() => {
-    console.log('allTouchData:', touchData);
-    if (Object.keys(touchData).length > 0) {
-      axios.post('/touchdata', { touchData })
-        .then((response) => {
-          console.log('Touch data sent to the backend successfully:', response.data);
-        })
-        .catch((error) => {
-          console.error('Error sending touch data to the backend:', error);
-        });
-    }
-  }, [touchData]);
+//     setTouchData((prevData) => ({
+//       ...prevData,
+//       [currentPage]: [...(prevData[currentPage] || []), interaction],
+//     }));
+//   };
 
-  return null; 
-};
+//   useEffect(() => {
+//     const handleTouchStart = (event) => {
+//       const touch = event.touches[0];
+//       const touchX = touch.clientX;
+//       const touchY = touch.clientY;
 
-export default TouchData;
+//       updateTouchData(touchX, touchY, event.target);
+//     };
+
+//     window.addEventListener('touchstart', handleTouchStart, { passive: false });
+
+//     return () => {
+//       window.removeEventListener('touchstart', handleTouchStart);
+//     };
+//   }, []);
+
+//   useEffect(() => {
+//     if (Object.keys(touchData).length > 0) {
+//       axios
+//         .post('/touchdata', { touchData })
+//         .then((response) => {
+//           console.log('Touch data sent to the backend successfully:', response.data);
+//         })
+//         .catch((error) => {
+//           console.error('Error sending touch data to the backend:', error);
+//         });
+//     }
+//   }, [touchData, location]);
+
+//   return null;
+// };
+
+
+// export{ handleNextButtonClick };
+
+// export default TouchData;
+
+
