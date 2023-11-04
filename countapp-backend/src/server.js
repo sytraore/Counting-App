@@ -4,12 +4,18 @@ import './data/userDetails.js';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
+import fetch from 'node-fetch';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 const JWT_SECRET = "wjergiurh2o$3hrorir804623]4801[1314hkjtgo24o823801";
+let rawKeyData = fs.readFileSync('src/key/key.json'); 
+let keyData = JSON.parse(rawKeyData);
+const GOOGLE_API_KEY = keyData.key; 
 
 
 const User = mongoose.model("UserInfo");
@@ -140,6 +146,39 @@ app.post("/register", async (req, res) => {
       res.status(500).send('Error saving touch data.');
     }
   });
+
+
+
+  app.post('/speech/synthesize', async (req, res) => {
+    try {
+      const { text} = req.body;
+      
+      const  voice = {languageCode: 'en-US', name :'en-US-Neural2-G' };
+      const request = {
+          input: { text: text},
+          voice: voice,
+          audioConfig: { audioEncoding: 'MP3' },
+        };
+
+      const response = await fetch('https://texttospeech.googleapis.com/v1/text:synthesize?key=' + GOOGLE_API_KEY, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(request),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+      const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Server Error in Google Text-to-Speech:', error);
+        res.status(500).json({ message: error.toString() });
+    }
+});
   
   
 
