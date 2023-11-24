@@ -70,6 +70,7 @@ function Home() {
           <button className="menu-button btn-lg btn-block"><Link to="/game/train/0">Training</Link></button>
           <button className="menu-button btn-lg btn-block"><Link to="/game/play/0">Start Game</Link></button>
           <button className="menu-button btn-lg btn-block"><Link to="/game/practice/0">Practice Counting</Link></button>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/animation/play/0">Animated Counting</Link></button>
         </div>
       </div>
     </div>

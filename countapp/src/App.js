@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Home from './pages/home'
-import GamePage from './pages/gamepage'
+import Home from './pages/home';
+import GamePage from './pages/gamepage';
+import AnimationPage from './pages/animationpage'
 import TrainPage from './pages/training';
 import PracticePage from './pages/practice';
 import SignupPage from './pages/signupPage';
@@ -19,6 +20,7 @@ function App() {
           <Route path='/' element={isLoggedIn == "true"? <Home /> : <SignupPage />}/>
           <Route path='/game/home' element={<Home />}/>
           <Route path='/game/play/:page' element={<GamePage />}/>
+          <Route path='/game/animation/play/:page' element={<AnimationPage />}/>
           <Route path='/game/train/:page' element={<TrainPage />}/>
           <Route path='/game/practice/:page' element={<PracticePage />}/>
         </Routes>

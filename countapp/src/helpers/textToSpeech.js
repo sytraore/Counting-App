@@ -1,7 +1,7 @@
 
 let currentAudio = null;
 
-export async function textToSpeech(utterance) {
+export async function textToSpeech(utterance, onSpeechEnd) {
     try {
     const requestData = {
       text: utterance,
@@ -26,6 +26,9 @@ export async function textToSpeech(utterance) {
 
     audio.addEventListener('ended', () => {
       currentAudio = null;
+      if (typeof onSpeechEnd === 'function') {
+        onSpeechEnd();
+      }
     });
     
     audio.play()

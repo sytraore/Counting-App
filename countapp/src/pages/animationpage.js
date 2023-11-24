@@ -29,15 +29,14 @@ import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
 import {handleInteraction, handleNextClickGame} from '../helpers/imageTouchData';
 
-const gamePage = () => {
+const animationPage = () => {
   const { page } = useParams();
-  const currentPage = parseInt(page);
-  const [cookieCount, setCookieCount] = useState(0);
+  const currentPage =  parseInt(page);
   const [showBigBird, setShowBigBird] = useState(false);
   const [showTray2, setShowTray2] = useState(false);
   const [selectedTray, setSelectedTray] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
-  const [activeCookieId, setActiveCookieId] = useState(1);
+  const [activeCookieIndex, setActiveCookieIndex] = useState(0);
   const [showGrayArea, setshowGrayArea] = useState(false);
   const [isWiggling, setIsWiggling] = useState(false);
   const spokenRef = useRef(false);
@@ -47,6 +46,11 @@ const gamePage = () => {
   const [modalShow, setModalShow] = useState(false);
   const [startAnimation, setstartAnimation] = useState(false);
   const [touchData, setTouchData] = useState([]);
+  const [firstAudioStarted, setFirstAudioStarted] = useState(false);
+
+
+  const audioUrls = [Trill1, Trill2,Trill3,Trill4,Trill5,Trill6,Trill7,Trill8,Trill9,Trill10];
+
 
   const handleAnimationFinish = () => {
     
@@ -90,7 +94,11 @@ const gamePage = () => {
     const utterance = `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
 
     setTimeout(() => {
-      textToSpeech(utterance)
+      textToSpeech(utterance, () => {
+        console.log('Speech has ended. Do something here.');
+        setFirstAudioStarted(true);
+        setActiveCookieIndex(0); 
+      })
     }, 1000);
   }
   };
@@ -123,106 +131,55 @@ const gamePage = () => {
   ? `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`
   : `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
 
-    const moveCircle = (id, currentPage) => {
-      setIsWiggling(true)
-      setTimeout(() => {
+
+useEffect(() => {
+  if(firstAudioStarted == true){
+    if (activeCookieIndex <= Data.pages[currentPage].cookies.length) {
+      setIsWiggling(true);
+      const audio = new Audio(audioUrls[activeCookieIndex]);
+      audio.play();
+      audio.onended = () => {
         setIsWiggling(false);
-      }, 2000);
-      const totalCount = Data.pages[currentPage].cookies.length - 1;
-      const numericId = parseInt(id);
-    
-      if (cookieCount <= totalCount) {
-        if (numericId === activeCookieId) {
-          
-          if ("speechSynthesis" in window) {
-            const audioElement = new Audio();
-    
-            switch (id) {
-              case "1":
-                audioElement.src = Trill1;
-                break;
-              case "2":
-                audioElement.src = Trill2;
-                break;
-              case "3":
-                audioElement.src = Trill3;
-                break;
-              case "4":
-                audioElement.src = Trill4;
-                break;
-              case "5":
-                audioElement.src = Trill5;
-                break;
-              case "6":
-                audioElement.src = Trill6;
-                break;
-              case "7":
-                audioElement.src = Trill7;
-                break;
-              case "8":
-                audioElement.src = Trill8;
-                break;
-              case "9":
-                audioElement.src = Trill9;
-                break;
-              case "10":
-                audioElement.src = Trill10;
-                break;
-              default:
-                return;
-            }
-    
-            audioElement.play();
-    
-            if (cookieCount < totalCount) {
-              audioElement.onend = setTimeout(function () {
-                setCookieCount((prevCount) => prevCount + 1);
-                setActiveCookieId(numericId + 1);
-              }, 2200);
-            }
-            if (cookieCount === totalCount) {
-              audioElement.onend = setTimeout(function () {
-                setCookieCount((prevCount) => prevCount + 1);
-              }, 2200);
-            }
-          } else {
-            console.error("SpeechSynthesis API is not supported in this browser.");
-          }
-        }
-      }
-      if (cookieCount === totalCount) {
-        setActiveCookieId(null);
-        setstartAnimation(true);      
+      if (activeCookieIndex === Data.pages[currentPage].cookies.length - 1) {
+        setActiveCookieIndex(999);
+        setstartAnimation(true);
+      } else {
+        setTimeout(() => {
+          setActiveCookieIndex(activeCookieIndex + 1);
+        }, 2000); 
       }
     };
+    }}
+  }, [activeCookieIndex, firstAudioStarted]);
+
     
 
   const handleNextPage = () => {
     if (currentPage < 3) {
-      setCookieCount(0)
       setShowTray2(false);
       setShowBigBird(false);
       setShowMessage(false);
-      setActiveCookieId(1);
+      setActiveCookieIndex(0);
       setshowGrayArea(false);
       setSelectedTray(null);
       spokenRef.current = false;
       spokenRef2.current = false;
       handleNextClickGame(touchData);
+      setFirstAudioStarted(false);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
-      setCookieCount(0)
       setShowTray2(false);
       setShowBigBird(false);
       setShowMessage(false);
-      setActiveCookieId(1);
+      setActiveCookieIndex(0);
       setshowGrayArea(false);
       setSelectedTray(null);
       spokenRef.current = false;
       spokenRef2.current = false;
+      setFirstAudioStarted(false);
     }
   };
 
@@ -251,9 +208,9 @@ const gamePage = () => {
                 key={cookie.id}
                 src={cookie.img}
                 id={cookie.id}
-                className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && isWiggling ? "wiggle" : ""}`}
+                className={`${activeCookieIndex+1 === cookie.id ? "circle" : ""} ${activeCookieIndex+1 === cookie.id && isWiggling ? "wiggle" : ""}`}
                 alt={`Cookie ${cookie.id}`}
-                onClick={() => moveCircle(cookie.id.toString(), currentPage)}
+                // onClick={() => moveCircle(cookie.id.toString(), currentPage)}
                 style={{
                   position: "absolute",
                   top: cookie.top,
@@ -333,10 +290,10 @@ const gamePage = () => {
           </div>
           <div className="buttons">
               {currentPage > 0 
-                ? (<button onClick={handlePreviousPage}><Link to={`/game/play/${currentPage - 1}`}><ArrowBackIosIcon /></Link></button>) 
+                ? (<button onClick={handlePreviousPage}><Link to={`/game/animation/play/${currentPage - 1}`}><ArrowBackIosIcon /></Link></button>) 
                 : (<button disabled> <ArrowBackIosIcon /></button>)}
               {currentPage < 3 
-                ?  ( <button onClick={handleNextPage}><Link to={`/game/play/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
+                ?  ( <button onClick={handleNextPage}><Link to={`/game/animation/play/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
                 : (<button onClick={() => setModalShow(true)}> <ArrowForwardIosIcon /></button>)}
                   <DialogBox show={modalShow} onHide={() => setModalShow(false)} page="practice"/>
           </div>
@@ -346,4 +303,4 @@ const gamePage = () => {
   );
 };
 
-export default gamePage;
+export default animationPage;
