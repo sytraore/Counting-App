@@ -170,7 +170,7 @@ function training() {
               {currentPage > 0 
                 ? (<button onClick={handlePreviousPage}><Link to={`/game/train/${currentPage - 1}`}><ArrowBackIosIcon /></Link></button>) 
                 : (<button disabled> <ArrowBackIosIcon /></button>)}
-              {currentPage < 12 
+              {currentPage < 8 
                 ?  ( <button  onClick={handleNextPage}><Link to={`/game/train/${currentPage + 1}`}><ArrowForwardIosIcon /></Link></button>) 
                 : (<button onClick={() => setModalShow(true)}> <ArrowForwardIosIcon /></button>)}
                   <DialogBox show={modalShow} onHide={() => setModalShow(false)} page="play"/>

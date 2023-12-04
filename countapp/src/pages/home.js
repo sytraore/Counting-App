@@ -68,9 +68,14 @@ function Home() {
       <div className='row centered-row'>
         <div className='menu-container'>
           <button className="menu-button btn-lg btn-block"><Link to="/game/train/0">Training</Link></button>
-          <button className="menu-button btn-lg btn-block"><Link to="/game/play/0">Start Game</Link></button>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/base/0">Baseline Category</Link></button>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/play/0">Touch Category</Link></button>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/animation/play/0">Animated Category</Link></button>
+          </div>
+          <div className='menu-container'>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/touch/training/0">Touch Screen Training</Link></button>
+          <button className="menu-button btn-lg btn-block"><Link to="/game/animation/training/0">Animated Training</Link></button>
           <button className="menu-button btn-lg btn-block"><Link to="/game/practice/0">Practice Counting</Link></button>
-          <button className="menu-button btn-lg btn-block"><Link to="/game/animation/play/0">Animated Counting</Link></button>
         </div>
       </div>
     </div>
