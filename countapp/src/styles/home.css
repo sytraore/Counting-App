@@ -10,10 +10,10 @@
 
 .centered-row {
   width: 80%;
-  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 10%;
 }
 
 .menu-container {
@@ -21,7 +21,7 @@
   flex-direction: row;
   gap: 5%;
   width: 100%;
-  margin-left: 20%;
+  margin-left: 10%;
 }
 
 .menu-button {
@@ -38,6 +38,7 @@
   color: black;
   text-decoration: none;
   font-weight: 600;
+  max-width: 100px;
 }
 
 .menu-button a:hover {
@@ -56,6 +57,18 @@
   right: 5px;
   top: 5px;
   cursor: pointer;
+}
+
+.hmMenu a{
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.hmMenu a:hover {
+  font-weight: 600;
+  color:rgb(225, 10, 96) ;
+  text-decoration: none;
 }
 
 .toggle-label {

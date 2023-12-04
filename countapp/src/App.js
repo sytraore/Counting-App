@@ -8,6 +8,7 @@ import TrainPage from './pages/training';
 import PracticePage from './pages/practice';
 import SignupPage from './pages/signupPage';
 import BasePage from './pages/basePage';
+import BaseTrainingPage from './pages/baseTraining';
 import AnimationTrainingPage from './pages/animationTrainingPage';
 import TouchTrainingPage from './pages/TouchTrainingPage';
 import { SoundProvider } from './helpers/SoundContext';
@@ -27,6 +28,7 @@ function App() {
           <Route path='/game/train/:page' element={<TrainPage />}/>
           <Route path='/game/practice/:page' element={<PracticePage />}/>
           <Route path='/game/base/:page' element={<BasePage />}/>
+          <Route path='/game/base/training/:page' element={<BaseTrainingPage />}/>
           <Route path='/game/animation/training/:page' element={<AnimationTrainingPage />}/>
           <Route path='/game/touch/training/:page' element={<TouchTrainingPage />}/>
         </Routes>
