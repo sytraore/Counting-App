@@ -19,6 +19,7 @@ function basePage() {
     const messageRef = useRef(false);
     const [modalShow, setModalShow] = useState(false);
     const [touchData, setTouchData] = useState([]);
+    const [selectedTray, setSelectedTray] = useState(null);
     const once = useRef(false)
 
 
@@ -38,9 +39,15 @@ function basePage() {
         }
       }, []);
 
+      const handleTrayClick = (trayType) => {
+        setSelectedTray(trayType);
+        console.log(trayType)
+      };
+
       const handleNextPage = () => {
         if (currentPage < 3) {
           messageRef.current = false;
+          setSelectedTray(null);
           handleNextClickTraining(touchData);
         }
       };
@@ -48,6 +55,7 @@ function basePage() {
       const handlePreviousPage = () => {
         if (currentPage > 0) {
           messageRef.current = false;
+          setSelectedTray(null);
         }
       };
 
@@ -86,67 +94,63 @@ function basePage() {
         </div>
       </div>
       <div className="col-8 position-absolute tray-container">
-        <div>
-          <img
-            src={greenTray}
-            alt="greentray"
-            className="tray2"
-            id="greenTray"
-            key="greenTray"
-          />
-          <div className="biscuitContainer position-absolute">
-            {sectionTrainData.pages[currentPage].greenTray[0].biscuits.length > 0 ? (
-              sectionTrainData.pages[currentPage].greenTray[0].biscuits.map(
-                (biscuit) => (
-                  <img
-                    key={biscuit.id}
-                    src={biscuit.img}
-                    id={biscuit.id}
-                    className="biscuits"
-                    style={{
-                      position: "absolute",
-                      top: biscuit.top,
-                      left: biscuit.left,
-                    }}
-                  />
-                )
-              )
-            ) : (
-              <p></p>
-            )}
-          </div>
-        </div>
+      <div>
+              <div
+                className={`tray-overlay1 ${selectedTray === "greenTray" ? "glow1" : ""}`}
+                onClick={() => handleTrayClick("greenTray")}
+              />
+              <img
+                src={greenTray}
+                alt="greentray"
+                className="tray2"
+                id="greenTray"
+                key="greenTray"
+              />
+              <div className="greenBiscuits position-absolute">
+              {sectionTrainData.pages[currentPage].greenTray[0].biscuits.map((biscuit) => (
+                <img
+                  key={biscuit.id}
+                  src={biscuit.img}
+                  id={biscuit.id}
+                  className="biscuits"
+                  style={{
+                    position: "absolute",
+                    top: biscuit.top,
+                    left: biscuit.left,
+                  }}
+                />
+              ))}
+              </div>
+            </div>
 
-        <div>
-          <img
-            src={purpleTray}
-            className="tray3"
-            id="purpleTray"
-            key="purpleTray"
-            alt="purpletray"
-          />
-          <div className="biscuitContainer position-absolute">
-            {sectionTrainData.pages[currentPage].purpleTray[0].biscuits.length > 0 ? (
-              sectionTrainData.pages[currentPage].purpleTray[0].biscuits.map(
-                (biscuit) => (
-                  <img
-                    key={biscuit.id}
-                    src={biscuit.img}
-                    id={biscuit.id}
-                    className="biscuits"
-                    style={{
-                      position: "absolute",
-                      top: biscuit.top,
-                      left: biscuit.left,
-                    }}
-                  />
-                )
-              )
-            ) : (
-              <p></p>
-            )}
-          </div>
-        </div>
+            <div> 
+                <div
+                  className={`tray-overlay2 ${selectedTray === "purpleTray" ? "glow2" : ""}`}
+                  onClick={() => handleTrayClick("purpleTray")}
+                />      
+                <img
+                  src={purpleTray}
+                  className="tray3"
+                  id="purpleTray"
+                  key="purpleTray"
+                  alt="purpletray"
+                />
+              <div className="greenBiscuits position-absolute">
+              {sectionTrainData.pages[currentPage].purpleTray[0].biscuits.map((biscuit) => (
+                <img
+                  key={biscuit.id}
+                  src={biscuit.img}
+                  id={biscuit.id}
+                  className="biscuits"
+                  style={{
+                    position: "absolute",
+                    top: biscuit.top,
+                    left: biscuit.left,
+                  }}
+                />
+              ))}
+              </div>
+            </div>
         <img
           src={BigBird}
           className="bigBird"

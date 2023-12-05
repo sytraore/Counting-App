@@ -14,8 +14,8 @@ import Trill7 from "../assests/audio/7.mp3";
 import Trill8 from "../assests/audio/8.mp3";
 import Trill9 from "../assests/audio/9.mp3";
 import Trill10 from "../assests/audio/10.mp3";
-import total1 from "../assests/audio/circling1cookie.mp3"
-import total2 from "../assests/audio/circling2cookie.mp3"
+import total1 from "../assests/audio/circling1cookie.mp3";
+import total2 from "../assests/audio/circling2cookies.mp3";
 import BigBird from "../assests/BigBird.png";
 import greenTray from "../assests/greenTray.png";
 import purpleTray from "../assests/purpleTray.png"
