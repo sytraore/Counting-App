@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import "../styles/gamePage.css";
-import Data from "../data/data.js";
+import animationData from "../data/animationData.js";
 import Tray1 from "../assests/TrayB.png";
 import Trill1 from "../assests/audio/1.mp3";
 import Trill2 from "../assests/audio/2.mp3";
@@ -56,7 +56,7 @@ const animationPage = () => {
     
     setTimeout(() => {
         const audioElement2 = new Audio();
-        switch (Data.pages[currentPage].cookies.length) {
+        switch (animationData.pages[currentPage].cookies.length) {
           case 5:
             audioElement2.src = total5;
             break;
@@ -78,7 +78,7 @@ const animationPage = () => {
               setShowTray2(true);
 
               if (soundEnabled) {
-              const utterance = `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`;
+              const utterance = `Can Big Bird also have ${animationData.pages[currentPage].cookies.length} cookies? Which tray has ${animationData.pages[currentPage].cookies.length} cookies? Green or purple?`;
               textToSpeech(utterance);
               }
               spokenRef2.current = true;
@@ -91,7 +91,7 @@ const animationPage = () => {
 
   const speakUtterance = () => {
     if(soundEnabled){
-    const utterance = `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
+    const utterance = `Cookie Monster has ${animationData.pages[currentPage].cookies.length} cookies. Let's count together!`;
 
     setTimeout(() => {
       textToSpeech(utterance, () => {
@@ -128,19 +128,19 @@ const animationPage = () => {
 
 
   const message = showMessage
-  ? `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`
-  : `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
+  ? `Can Big Bird also have ${animationData.pages[currentPage].cookies.length} cookies? Which tray has ${animationData.pages[currentPage].cookies.length} cookies? Green or purple?`
+  : `Cookie Monster has ${animationData.pages[currentPage].cookies.length} cookies. Let's count together!`;
 
 
 useEffect(() => {
   if(firstAudioStarted == true){
-    if (activeCookieIndex <= Data.pages[currentPage].cookies.length) {
+    if (activeCookieIndex <= animationData.pages[currentPage].cookies.length) {
       setIsWiggling(true);
       const audio = new Audio(audioUrls[activeCookieIndex]);
       audio.play();
       audio.onended = () => {
         setIsWiggling(false);
-      if (activeCookieIndex === Data.pages[currentPage].cookies.length - 1) {
+      if (activeCookieIndex === animationData.pages[currentPage].cookies.length - 1) {
         setActiveCookieIndex(999);
         setstartAnimation(true);
       } else {
@@ -203,7 +203,7 @@ useEffect(() => {
             </div>
           </div>
           <div className="cookieContainer position-absolute">
-            {Data.pages[currentPage].cookies.map((cookie) => (
+            {animationData.pages[currentPage].cookies.map((cookie) => (
               <img
                 key={cookie.id}
                 src={cookie.img}
@@ -237,7 +237,7 @@ useEffect(() => {
                 key="greenTray"
               />
               <div className="greenBiscuits position-absolute">
-              {Data.pages[currentPage].greenTray[0].biscuits.map((biscuit) => (
+              {animationData.pages[currentPage].greenTray[0].biscuits.map((biscuit) => (
                 <img
                   key={biscuit.id}
                   src={biscuit.img}
@@ -268,7 +268,7 @@ useEffect(() => {
                   alt="purpletray"
                 />
               <div className="greenBiscuits position-absolute">
-              {Data.pages[currentPage].purpleTray[0].biscuits.map((biscuit) => (
+              {animationData.pages[currentPage].purpleTray[0].biscuits.map((biscuit) => (
                 <img
                   key={biscuit.id}
                   src={biscuit.img}
