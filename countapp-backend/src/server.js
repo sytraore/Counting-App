@@ -129,9 +129,10 @@ app.post("/register", async (req, res) => {
     try {
       console.log('Received request with body:', req.body);
       const { touchData } = req.body; 
-      console.log('Parsed touch data:', touchData);
-  
-      fs.writeFileSync('src/data/TrainingTouchData.txt', JSON.stringify(touchData));
+      const {typeOfTraining } = req.body;
+      console.log('Parsed touch data:', typeOfTraining);
+      const dataToWrite = `${typeOfTraining}: ${JSON.stringify(touchData)}`;
+      fs.writeFileSync('src/data/TrainingTouchData.txt', dataToWrite);
   
       res.status(200).send('Touch data saved successfully.');
     } catch (error) {
@@ -140,14 +141,43 @@ app.post("/register", async (req, res) => {
     }
   });
 
-
-  app.post('/saveGameTouchData', (req, res) => {
+  app.post('/save/Game/Touch/Baseline/Data', (req, res) => {
     try {
       console.log('Received request with body:', req.body);
       const { touchData } = req.body; 
       console.log('Parsed touch data:', touchData);
   
-      fs.writeFileSync('src/data/GameTouchData.txt', JSON.stringify(touchData));
+      fs.writeFileSync('src/data/BaselineGameData.txt', JSON.stringify(touchData));
+  
+      res.status(200).send('Touch data saved successfully.');
+    } catch (error) {
+      console.error('Error saving touch data:', error);
+      res.status(500).send('Error saving touch data.');
+    }
+  });
+
+  app.post('/save/Game/Touch/Data', (req, res) => {
+    try {
+      console.log('Received request with body:', req.body);
+      const { touchData } = req.body; 
+      console.log('Parsed touch data:', touchData);
+  
+      fs.writeFileSync('src/data/TouchGameData.txt', JSON.stringify(touchData));
+  
+      res.status(200).send('Touch data saved successfully.');
+    } catch (error) {
+      console.error('Error saving touch data:', error);
+      res.status(500).send('Error saving touch data.');
+    }
+  });
+
+  app.post('/save/Game/Touch/Animation/Data', (req, res) => {
+    try {
+      console.log('Received request with body:', req.body);
+      const { touchData } = req.body; 
+      console.log('Parsed touch data:', touchData);
+  
+      fs.writeFileSync('src/data/AnimationGameData.txt', JSON.stringify(touchData));
   
       res.status(200).send('Touch data saved successfully.');
     } catch (error) {

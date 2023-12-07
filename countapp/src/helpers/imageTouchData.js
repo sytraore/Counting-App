@@ -29,55 +29,99 @@ export const handleInteraction = (event, setTouchData) => {
   };
 
 
+  export const handleNextClickBaseline = (touchData) => {
+    console.log("touchdata:", touchData)
+    fetch('/save/Game/Touch/Baseline/Data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ touchData }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Touch data sent successfully.');
+        } else {
+          console.error('Failed to send touch data to the backend.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
 
+  };
+
+  
+
+  export const handleNextClickTouch = (touchData) => {
+    console.log("touchdata:", touchData)
+    fetch('/save/Game/Touch/Data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ touchData }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Touch data sent successfully.');
+        } else {
+          console.error('Failed to send touch data to the backend.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+  };
+
+  export const handleNextClickAnimation = (touchData) => {
+    console.log("touchdata:", touchData)
+    fetch('/save/Game/Touch/Animation/Data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ touchData }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Touch data sent successfully.');
+        } else {
+          console.error('Failed to send touch data to the backend.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+  };
+
+  export const handleNextClickTraining = (touchData, typeOfTraining) => {
+    console.log("touchdata:", touchData)
+    fetch('/saveTrainingTouchData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ touchData, typeOfTraining }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Touch data sent successfully.');
+        } else {
+          console.error('Failed to send touch data to the backend.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+  };
 
   export const handleNextClickPractice = (touchData) => {
     console.log("touchdata:", touchData)
     fetch('/savePracticeTouchData', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ touchData }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log('Touch data sent successfully.');
-        } else {
-          console.error('Failed to send touch data to the backend.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-
-  };
-
-  export const handleNextClickGame = (touchData) => {
-    console.log("touchdata:", touchData)
-    fetch('/saveGameTouchData', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ touchData }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log('Touch data sent successfully.');
-        } else {
-          console.error('Failed to send touch data to the backend.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-
-  };
-
-  export const handleNextClickTraining = (touchData) => {
-    console.log("touchdata:", touchData)
-    fetch('/saveTrainingTouchData', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

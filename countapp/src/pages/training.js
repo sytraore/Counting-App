@@ -63,7 +63,7 @@ function training() {
     const handleNextPage = () => {
       if (currentPage < 12) {
         messageRef.current = false;
-        handleNextClickTraining(touchData);
+        handleNextClickTraining(touchData, "starter");
       }
     };
   

@@ -27,7 +27,7 @@ import AnimationNoCircle from "../components/animationNoCircleDraw.js";
 import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
-import {handleInteraction, handleNextClickGame} from '../helpers/imageTouchData';
+import {handleInteraction, handleNextClickTraining} from '../helpers/imageTouchData';
 
 const animationTrainingPage = () => {
   const { page } = useParams();
@@ -164,7 +164,7 @@ useEffect(() => {
       setSelectedTray(null);
       spokenRef.current = false;
       spokenRef2.current = false;
-      handleNextClickGame(touchData);
+      handleNextClickTraining(touchData, "animation");
       setFirstAudioStarted(false);
     }
   };

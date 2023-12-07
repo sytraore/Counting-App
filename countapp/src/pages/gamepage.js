@@ -27,7 +27,7 @@ import Animation from "../components/animation";
 import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
-import {handleInteraction, handleNextClickGame} from '../helpers/imageTouchData';
+import {handleInteraction, handleNextClickTouch} from '../helpers/imageTouchData';
 
 const gamePage = () => {
   const { page } = useParams();
@@ -208,7 +208,7 @@ const gamePage = () => {
       setSelectedTray(null);
       spokenRef.current = false;
       spokenRef2.current = false;
-      handleNextClickGame(touchData);
+      handleNextClickTouch(touchData);
     }
   };
 

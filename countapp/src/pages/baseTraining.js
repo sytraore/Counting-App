@@ -57,7 +57,7 @@ function basePage() {
         if (currentPage < 3) {
           messageRef.current = false;
           setSelectedTray(null);
-          handleNextClickTraining(touchData);
+          handleNextClickTraining(touchData, "baseline");
         }
       };
     
