@@ -6,7 +6,9 @@ import image3 from "../assests/image3.jpg";
 import "bootstrap/dist/css/bootstrap.css";
 import Profile from "../components/profile";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SaveIcon from '@mui/icons-material/Save';
 import { useSound } from "../helpers/SoundContext";
+import { saveAnswers } from "../helpers/SaveAnswers";
 
 function Home() {
   const [userData, setuserData] = useState("");
@@ -46,8 +48,14 @@ function Home() {
     setSoundEnabled(!textToSpeechEnabled);
   };
 
+  const handleSave = () => {
+    saveAnswers();
+    console.log("hi")
+  };
+
   return (
     <div className="home">
+       <button onClick={handleSave} className="save-btn"><SaveIcon /></button>
       <div className="toggle">
         <label className="toggle-label">
           Enable Sound:

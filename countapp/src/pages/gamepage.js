@@ -226,9 +226,18 @@ const gamePage = () => {
     }
   };
 
+  const storeAnswer = (answerKey, answerValue) => {
+    const storedAnswersJSON = localStorage.getItem('touchCategoryAnswers');
+    const storedAnswersObject = storedAnswersJSON ? JSON.parse(storedAnswersJSON) : {};
+
+    storedAnswersObject[answerKey] = answerValue;
+  
+    localStorage.setItem('touchCategoryAnswers', JSON.stringify(storedAnswersObject));
+  };
+
   const handleTrayClick = (trayType) => {
     setSelectedTray(trayType);
-    console.log(trayType)
+    storeAnswer(currentPage, trayType);
   };
 
   return (

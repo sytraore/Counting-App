@@ -26,14 +26,17 @@ app.post("/register", async (req, res) => {
     try {
       await User.create({
         uname: name,
-        answer0: false,
-        answer1:false,
-        answer2: false,
-        answer3: false,
-        answer4: false,
-        totalScore: 0,
+        answers: {
+          baselineTrainingAnswers: null,
+          TouchTrainingAnswers: null,
+          animationTrainingAnswers: null,
+          touchCategoryAnswers: null,
+          animationCategoryAnswers: null,
+          baselineCategoryAnswers: null,
+        },
       });
-      console.log(User)
+
+      console.log("user:", User.answers)
       const token = jwt.sign({name: name}, JWT_SECRET,{
         expiresIn: 86400,
       });
@@ -73,30 +76,51 @@ app.post("/register", async (req, res) => {
   });
 
 
-  app.post("/update-answer/:questionNumber", async (req, res) => {
-    const { questionNumber } = req.params;
-    const { token, newAnswer } = req.body;
-    const correctAnswers = ["greenTray","purpleTray","greenTray","purpleTray"];
-    let score = 0;
+  // app.post("/update-answer/:questionNumber", async (req, res) => {
+  //   const { questionNumber } = req.params;
+  //   const { token, newAnswer } = req.body;
+  //   const correctAnswers = ["greenTray","purpleTray","greenTray","purpleTray"];
+  //   let score = 0;
   
-    try {
+  //   try {
+  //     const user = jwt.verify(token, JWT_SECRET);
+  //     const username = user.name;
+
+  //     if (newAnswer === correctAnswers[questionNumber]) {
+  //       score = 1;
+  //     }else{
+  //       score = 0;
+  //     }
+
+  //     const updatedUser = await User.findOneAndUpdate(
+  //       { uname :username },
+  //       { [`answer${questionNumber}`]: score },
+  //     );
+  
+  //     res.json(updatedUser);
+  //   } catch (error) {
+  //     res.status(500).json({ error: "Error updating answer." });
+  //   }
+  // });
+
+  app.post('/submit-answers', async (req, res) => {
+    try{
+      const answers = req.body;
+      const token = req.headers.authorization.split('Bearer ')[1];
+
       const user = jwt.verify(token, JWT_SECRET);
       const username = user.name;
-
-      if (newAnswer === correctAnswers[questionNumber]) {
-        score = 1;
-      }else{
-        score = 0;
-      }
+      console.log("username:",username)
 
       const updatedUser = await User.findOneAndUpdate(
         { uname :username },
-        { [`answer${questionNumber}`]: score },
+        { answers: answers}
       );
-  
+
       res.json(updatedUser);
-    } catch (error) {
-      res.status(500).json({ error: "Error updating answer." });
+
+    }catch (error) {
+      res.status(500).json({ error: "Error saving answer." });
     }
   });
 

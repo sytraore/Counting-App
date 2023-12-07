@@ -225,9 +225,18 @@ const TouchTrainingPage = () => {
     }
   };
 
+  const storeAnswer = (answerKey, answerValue) => {
+    const storedAnswersJSON = localStorage.getItem('TouchTrainingAnswers');
+    const storedAnswersObject = storedAnswersJSON ? JSON.parse(storedAnswersJSON) : {};
+
+    storedAnswersObject[answerKey] = answerValue;
+  
+    localStorage.setItem('TouchTrainingAnswers', JSON.stringify(storedAnswersObject));
+  };
+
   const handleTrayClick = (trayType) => {
     setSelectedTray(trayType);
-    console.log(trayType)
+    storeAnswer(currentPage, trayType);
   };
 
   return (

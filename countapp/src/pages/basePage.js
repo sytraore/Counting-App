@@ -39,9 +39,18 @@ function basePage() {
         }
       }, []);
 
+      const storeAnswer = (answerKey, answerValue) => {
+        const storedAnswersJSON = localStorage.getItem('baselineCategoryAnswers');
+        const storedAnswersObject = storedAnswersJSON ? JSON.parse(storedAnswersJSON) : {};
+    
+        storedAnswersObject[answerKey] = answerValue;
+      
+        localStorage.setItem('baselineCategoryAnswers', JSON.stringify(storedAnswersObject));
+      };
+    
       const handleTrayClick = (trayType) => {
         setSelectedTray(trayType);
-        console.log(trayType)
+        storeAnswer(currentPage, trayType);
       };
 
       const handleNextPage = () => {
