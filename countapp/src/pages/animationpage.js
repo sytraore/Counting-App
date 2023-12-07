@@ -23,7 +23,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import Animation from "../components/animation";
+import AnimationNoCircle from "../components/animationNoCircleDraw.js";
 import { useSound } from '../helpers/SoundContext';
 import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
@@ -228,7 +228,7 @@ useEffect(() => {
               />
             ))}
           </div>
-          {startAnimation && (<div className="anim"><Animation onAnimationFinish={handleAnimationFinish}/></div>)}
+          {startAnimation && (<div className="anim"><AnimationNoCircle onAnimationFinish={handleAnimationFinish}/></div>)}
         </div>
 
           <div className="col-8 position-absolute tray-container">
