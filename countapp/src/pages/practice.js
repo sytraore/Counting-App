@@ -7,6 +7,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import {handleInteraction, handleNextClickPractice} from '../helpers/imageTouchData';
+import { saveAnswers } from "../helpers/SaveAnswers";
 
 function practice() {
     const { practiceData } = useAppData();
@@ -14,6 +15,7 @@ function practice() {
     const currentPage = parseInt(page);
     const [touchData, setTouchData] = useState([]);
     const once = useRef(false);
+    const [enteredAnswer, setEnteredAnswer] = useState('');
 
 
     useEffect(() => {
@@ -34,11 +36,28 @@ function practice() {
 
     const handleNextButton = () => {
       handleNextClickPractice(touchData, currentPage);
-      
+      storeAnswer(currentPage, enteredAnswer);
+      saveAnswers("practice");
+    };
+
+    const handleAnswer = (event) => {
+      setEnteredAnswer(event.target.value);
+    };
+
+    const storeAnswer = (answerKey, answerValue) => {
+      const storedAnswersJSON = localStorage.getItem('practiceAnswers');
+      const storedAnswersObject = storedAnswersJSON ? JSON.parse(storedAnswersJSON) : {};
+  
+      storedAnswersObject[answerKey] = answerValue;
+    
+      localStorage.setItem('practiceAnswers', JSON.stringify(storedAnswersObject));
     };
    
     return (
         <div>
+          <div class="AnswerContainer">
+              <input type="text" onChange={handleAnswer} id="numberInput" placeholder="Enter Answer"/>
+          </div>
           <div>
               {practiceData.pages[currentPage].animals.map((animal) => (
                 <img
