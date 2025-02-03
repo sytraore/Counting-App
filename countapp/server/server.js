@@ -1,9 +1,9 @@
-import {connectToDb} from './db.js';
+import {connectToDb} from '../../countapp-backend/src/db.js';
 import express from 'express';
-import './data/userDetails.js';
-import './data/touchDetails.js';
-import './data/trainingTouchDetails.js';
-import './data/practiceTouchDetails.js';
+import './database/userDetails.js';
+import './database/touchDetails.js';
+import './database/trainingTouchDetails.js';
+import './database/practiceTouchDetails.js';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
@@ -11,22 +11,27 @@ import fetch from 'node-fetch';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { config } from 'dotenv';
+config({ path: '.env.local' });
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const keyPath = path.join(__dirname, '/Key/key.json');
 const dataPath = path.join(__dirname, '/data');
+const PORT = process.env.REACT_APP_PORT || 5000;
+console.log(PORT);
+
+const GOOGLE_API_KEY = process.env.GOOGLEAPI_KEY;
+const keyPath = process.env.KEYPATH;
+const certPath = process.env.CERTPATH;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
-const JWT_SECRET = "wjergiurh2o$3hrorir804623]4801[1314hkjtgo24o823801";
-let rawKeyData = fs.readFileSync(keyPath); 
-let keyData = JSON.parse(rawKeyData);
-const GOOGLE_API_KEY = keyData.key; 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 
 
 const User = mongoose.model("UserInfo");
@@ -257,7 +262,6 @@ app.post("/register", async (req, res) => {
 
 
 
-const PORT = 8000;
 
 connectToDb()
   .then(() => {
