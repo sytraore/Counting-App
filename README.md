@@ -1,16 +1,17 @@
 * install
 
-cd countapp
-npm install
+`cd countapp`
+`npm install`
 
 
-create a file named .env.local
+create a file named `.env.local` in countapp folder
 and ask Sang for local variables 
 
-cd server
-npm install
+`cd server`
+`npm install`
 
-npm run dev
+go to countapp folder
+run this command `npm run dev`
 
 (optional) if you want to run local mongo database
 - install mongo community edition
