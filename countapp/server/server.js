@@ -1,4 +1,4 @@
-import {connectToDb} from '../../countapp-backend/src/db.js';
+import {connectToDb} from './db.js';
 import express from 'express';
 import './database/userDetails.js';
 import './database/touchDetails.js';
