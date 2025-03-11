@@ -17,6 +17,7 @@ import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
 import {handleInteraction, handleNextClickTouchData} from '../helpers/imageTouchData';
 import { saveAnswers } from "../helpers/SaveAnswers";
+import CookieCounter from "../components/CookieCounter.js";
 
 const gamePage = () => {
   const { Data, audioData, selectedOption } = useAppData();
@@ -30,6 +31,9 @@ const gamePage = () => {
   const [activeCookieId, setActiveCookieId] = useState(0);
   const [showGrayArea, setshowGrayArea] = useState(false);
   const [isWiggling, setIsWiggling] = useState(false);
+
+  const [wigglingCookie, setWigglingCookie] = useState({});
+  
   const spokenRef = useRef(false);
   const spokenRef2 = useRef(false);
   const once = useRef(false);
@@ -37,8 +41,10 @@ const gamePage = () => {
   const [modalShow, setModalShow] = useState(false);
   const [startAnimation, setstartAnimation] = useState(false);
   const [touchData, setTouchData] = useState([]);
-  const clickedCookies = new Set();
+  const [count, setCount] = useState(0);
+  const clickedCookies = useRef(new Set());
 
+    
   const handleAnimationFinish = () => {
     
     setTimeout(() => {
@@ -246,6 +252,51 @@ const gamePage = () => {
   const handleTrayClick = (trayType) => {
     setSelectedTray(trayType);
     storeAnswer(currentPage, trayType);
+
+  };
+
+  // handle the click event on the cookie
+  const handleCookieClick = (cookieId) => {
+    // if the cookie has not been clicked before, add it to the set and increment the count
+    const totalCount = Data.pages[currentPage].cookies.length;
+    for (let i = 0; i <= totalCount; i++) {
+      if (!clickedCookies.current.has(cookieId)) {
+        clickedCookies.current.add(cookieId);
+        setCount(prevCount => {
+            const newCount = prevCount + 1;
+            textToSpeech(`${newCount}`);
+            if (newCount === totalCount) {
+              setstartAnimation(true);
+            }
+            return newCount;
+        });
+      }
+    }
+  };
+
+  // handle the click event on the cookie
+  const handleCookieClickWithColor = (cookieId) => {
+    setWigglingCookie(prevState => ({ ...prevState, [cookieId]: true }));
+    setTimeout(() => {
+      setWigglingCookie(prevState => ({ ...prevState, [cookieId]: false }));
+    }, 2000);
+
+    const totalCount = Data.pages[currentPage].cookies.length;
+    // if the cookie has not been clicked before, add it to the set and increment the count
+    for (let i = 0; i <= totalCount; i++) {
+      if (!clickedCookies.current.has(cookieId)) {
+        clickedCookies.current.add(cookieId);
+        setCount(prevCount => {
+            const newCount = prevCount + 1;
+            textToSpeech(`${newCount}`);
+            setActiveCookieId(cookieId);
+            if (newCount === totalCount) {
+              setstartAnimation(true);
+            }
+            return newCount;
+        });
+      }
+    }
   };
 
   return (
@@ -263,14 +314,19 @@ const gamePage = () => {
             </div>
           </div>
           <div className="cookieContainer position-absolute">
+            {/* <CookieCounter cookies={Data.pages[currentPage].cookies} /> */}
             {Data.pages[currentPage].cookies.map((cookie) => (
               <img
                 key={cookie.id}
                 src={cookie.img}
                 id={cookie.id}
-                className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && isWiggling ? "wiggle" : ""}`}
+                //className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && isWiggling ? "wiggle" : ""}`}
+                //className="cookie"
+                className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && wigglingCookie ? "wiggle" : ""}`}
                 alt={`Cookie ${cookie.id}`}
-                onClick={() => moveCircle(cookie.id.toString(), currentPage)}
+                onClick={() => handleCookieClickWithColor(cookie.id)}
+                //onClick={() => handleCookieClick(cookie.id)}
+                // onClick={() => moveCircle(cookie.id.toString(), currentPage)}
                 style={{
                   position: "absolute",
                   top: cookie.top,
