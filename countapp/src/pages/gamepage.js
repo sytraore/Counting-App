@@ -17,7 +17,7 @@ import { textToSpeech } from '../helpers/textToSpeech';
 import DialogBox from "../components/dialogBox";
 import {handleInteraction, handleNextClickTouchData} from '../helpers/imageTouchData';
 import { saveAnswers } from "../helpers/SaveAnswers";
-import CookieCounter from "../components/CookieCounter.js";
+//import CookieCounter from "../components/CookieCounter.js";
 
 const gamePage = () => {
   const { Data, audioData, selectedOption } = useAppData();
@@ -30,10 +30,10 @@ const gamePage = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [activeCookieId, setActiveCookieId] = useState(0);
   const [showGrayArea, setshowGrayArea] = useState(false);
-  const [isWiggling, setIsWiggling] = useState(false);
+  //const [isWiggling, setIsWiggling] = useState(false);
 
   const [wigglingCookie, setWigglingCookie] = useState({});
-  
+
   const spokenRef = useRef(false);
   const spokenRef2 = useRef(false);
   const once = useRef(false);
@@ -122,87 +122,87 @@ const gamePage = () => {
   ? `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`
   : `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
 
-    const moveCircle = (id, currentPage) => {
-      setIsWiggling(true)
-      setTimeout(() => {
-        setIsWiggling(false);
-      }, 2000);
+    // const moveCircle = (id, currentPage) => {
+    //   setIsWiggling(true)
+    //   setTimeout(() => {
+    //     setIsWiggling(false);
+    //   }, 2000);
 
       
-      const totalCount = Data.pages[currentPage].cookies.length - 1;
-      const numericId = parseInt(id);
+    //   const totalCount = Data.pages[currentPage].cookies.length - 1;
+    //   const numericId = parseInt(id);
     
-      if (cookieCount <= totalCount) {
-        if (numericId === activeCookieId) {
+    //   if (cookieCount <= totalCount) {
+    //     if (numericId === activeCookieId) {
 
-          const cookieElement = document.getElementById(id);
-          cookieElement.style.pointerEvents = 'none';
+    //       const cookieElement = document.getElementById(id);
+    //       cookieElement.style.pointerEvents = 'none';
           
-          if ("speechSynthesis" in window) {
-            const audioElement = new Audio();
+    //       if ("speechSynthesis" in window) {
+    //         const audioElement = new Audio();
     
-            switch (id) {
-              case "1":
-                audioElement.src = audioData.trills[0];
-                break;
-              case "2":
-                audioElement.src = audioData.trills[1];
-                break;
-              case "3":
-                audioElement.src = audioData.trills[2];
-                break;
-              case "4":
-                audioElement.src = audioData.trills[3];
-                break;
-              case "5":
-                audioElement.src = audioData.trills[4];
-                break;
-              case "6":
-                audioElement.src = audioData.trills[5];
-                break;
-              case "7":
-                audioElement.src = audioData.trills[6];
-                break;
-              case "8":
-                audioElement.src = audioData.trills[7];
-                break;
-              case "9":
-                audioElement.src = audioData.trills[8];
-                break;
-              case "10":
-                audioElement.src = audioData.trills[9];
-                break;
-              default:
-                return;
-            }
+    //         switch (id) {
+    //           case "1":
+    //             audioElement.src = audioData.trills[0];
+    //             break;
+    //           case "2":
+    //             audioElement.src = audioData.trills[1];
+    //             break;
+    //           case "3":
+    //             audioElement.src = audioData.trills[2];
+    //             break;
+    //           case "4":
+    //             audioElement.src = audioData.trills[3];
+    //             break;
+    //           case "5":
+    //             audioElement.src = audioData.trills[4];
+    //             break;
+    //           case "6":
+    //             audioElement.src = audioData.trills[5];
+    //             break;
+    //           case "7":
+    //             audioElement.src = audioData.trills[6];
+    //             break;
+    //           case "8":
+    //             audioElement.src = audioData.trills[7];
+    //             break;
+    //           case "9":
+    //             audioElement.src = audioData.trills[8];
+    //             break;
+    //           case "10":
+    //             audioElement.src = audioData.trills[9];
+    //             break;
+    //           default:
+    //             return;
+    //         }
     
-            audioElement.play();
+    //         audioElement.play();
     
-            if (cookieCount < totalCount) {
-              audioElement.onend = setTimeout(function () {
-                  setCookieCount((prevCount) => prevCount + 1);
-                  setActiveCookieId(numericId + 1);
-              }, 2200);
-            }
-            if (cookieCount === totalCount) {
-              audioElement.onend = setTimeout(function () {
-                  setCookieCount((prevCount) => prevCount + 1);
-              }, 2200);
-              const allCookies = document.querySelectorAll('.cookieContainer img');
-              allCookies.forEach(cookie => {
-                cookie.style.pointerEvents = 'auto';
-              });
-            }
-          } else {
-            console.error("SpeechSynthesis API is not supported in this browser.");
-          }
-        }
-      }
-      if (cookieCount === totalCount) {
-        setActiveCookieId(null);
-        setstartAnimation(true);      
-      }
-    };
+    //         if (cookieCount < totalCount) {
+    //           audioElement.onend = setTimeout(function () {
+    //               setCookieCount((prevCount) => prevCount + 1);
+    //               setActiveCookieId(numericId + 1);
+    //           }, 2200);
+    //         }
+    //         if (cookieCount === totalCount) {
+    //           audioElement.onend = setTimeout(function () {
+    //               setCookieCount((prevCount) => prevCount + 1);
+    //           }, 2200);
+    //           const allCookies = document.querySelectorAll('.cookieContainer img');
+    //           allCookies.forEach(cookie => {
+    //             cookie.style.pointerEvents = 'auto';
+    //           });
+    //         }
+    //       } else {
+    //         console.error("SpeechSynthesis API is not supported in this browser.");
+    //       }
+    //     }
+    //   }
+    //   if (cookieCount === totalCount) {
+    //     setActiveCookieId(null);
+    //     setstartAnimation(true);      
+    //   }
+    // };
     
 
   const handleNextPage = () => {
@@ -214,6 +214,9 @@ const gamePage = () => {
       setActiveCookieId(0);
       setshowGrayArea(false);
       setSelectedTray(null);
+      setstartAnimation(false);
+      setCount(0);
+      clickedCookies.current.clear();
       spokenRef.current = false;
       spokenRef2.current = false;
       handleNextClickTouchData(touchData, "Touch", currentPage);
@@ -230,6 +233,9 @@ const gamePage = () => {
       setActiveCookieId(0);
       setshowGrayArea(false);
       setSelectedTray(null);
+      setstartAnimation(false);
+      setCount(0);
+      clickedCookies.current.clear();
       spokenRef.current = false;
       spokenRef2.current = false;
     }
@@ -256,25 +262,6 @@ const gamePage = () => {
   };
 
   // handle the click event on the cookie
-  const handleCookieClick = (cookieId) => {
-    // if the cookie has not been clicked before, add it to the set and increment the count
-    const totalCount = Data.pages[currentPage].cookies.length;
-    for (let i = 0; i <= totalCount; i++) {
-      if (!clickedCookies.current.has(cookieId)) {
-        clickedCookies.current.add(cookieId);
-        setCount(prevCount => {
-            const newCount = prevCount + 1;
-            textToSpeech(`${newCount}`);
-            if (newCount === totalCount) {
-              setstartAnimation(true);
-            }
-            return newCount;
-        });
-      }
-    }
-  };
-
-  // handle the click event on the cookie
   const handleCookieClickWithColor = (cookieId) => {
     setWigglingCookie(prevState => ({ ...prevState, [cookieId]: true }));
     setTimeout(() => {
@@ -291,6 +278,7 @@ const gamePage = () => {
             textToSpeech(`${newCount}`);
             setActiveCookieId(cookieId);
             if (newCount === totalCount) {
+              setActiveCookieId(null);
               setstartAnimation(true);
             }
             return newCount;
@@ -314,18 +302,16 @@ const gamePage = () => {
             </div>
           </div>
           <div className="cookieContainer position-absolute">
-            {/* <CookieCounter cookies={Data.pages[currentPage].cookies} /> */}
             {Data.pages[currentPage].cookies.map((cookie) => (
               <img
                 key={cookie.id}
                 src={cookie.img}
                 id={cookie.id}
                 //className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && isWiggling ? "wiggle" : ""}`}
-                //className="cookie"
-                className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && wigglingCookie ? "wiggle" : ""}`}
+                className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && wigglingCookie ? "wiggle" : ""} ${clickedCookies.current.has(cookie.id) ? "clickedCookie" : ""}`}
+                //className={`${clickedCookies.current.has(cookie.id) ? "clickedCookie" : ""}`}
                 alt={`Cookie ${cookie.id}`}
                 onClick={() => handleCookieClickWithColor(cookie.id)}
-                //onClick={() => handleCookieClick(cookie.id)}
                 // onClick={() => moveCircle(cookie.id.toString(), currentPage)}
                 style={{
                   position: "absolute",
