@@ -31,9 +31,12 @@ const gamePage = () => {
   const [activeCookieId, setActiveCookieId] = useState(0);
   const [showGrayArea, setshowGrayArea] = useState(false);
 
+  // state to handle the wiggling of the cookie
   const [wigglingCookie, setWigglingCookie] = useState({});
+  
+  // state to handle the inteactivity of the user
   const [userInteracted, setUserInteracted] = useState(false);
-  const inactivityTimeout = 10000; // 10 seconds
+  const inactivityTimeout = 5000; // 5 seconds
   const wiggleDuration = 2000; // 2 seconds
 
   const spokenRef = useRef(false);
@@ -43,10 +46,13 @@ const gamePage = () => {
   const [modalShow, setModalShow] = useState(false);
   const [startAnimation, setstartAnimation] = useState(false);
   const [touchData, setTouchData] = useState([]);
+
+  // state to count the number of cookies clicked
   const [count, setCount] = useState(0);
+
+  // state to store the id's of cookies clicked
   const clickedCookies = useRef(new Set());
 
-    
   const handleAnimationFinish = () => {
     
     setTimeout(() => {
@@ -109,9 +115,9 @@ const gamePage = () => {
       clearTimeout(inactivityTimer);
       setUserInteracted(false);
       inactivityTimer = setTimeout(() => {
-        // Check if there are cookies on the current page
+        // check if there are cookies on the page and if none have been clicked
         if (Data.pages[currentPage] && Data.pages[currentPage].cookies && Data.pages[currentPage].cookies.length > 0 && clickedCookies.current.size === 0) {
-          // Use activeCookieId or default to the first cookie
+          // get first cookie id and add some animation to it
           const cookieToWiggle = Data.pages[currentPage].cookies[0].id;
           setWigglingCookie(prevstate => ({ ...prevstate, [cookieToWiggle]: true }));
           setTimeout(() => {
@@ -121,6 +127,7 @@ const gamePage = () => {
       }, inactivityTimeout);
     };
 
+    // add event listeners to track user activity
     document.addEventListener('click', () => {
       trackInactivity();
       resetInactivityTimer();
@@ -135,7 +142,6 @@ const gamePage = () => {
 
     return () => {
       clearTimeout(inactivityTimer);
-      
       document.addEventListener('click', resetInactivityTimer);
       document.addEventListener('touchstart', resetInactivityTimer);
     }
@@ -238,7 +244,6 @@ const gamePage = () => {
 
   // handle the click event on the cookie
   const handleCookieClickWithColor = (cookieId) => {
-    
     const totalCount = Data.pages[currentPage].cookies.length;
     // if the cookie has not been clicked before, add it to the set and increment the count
     for (let i = 0; i <= totalCount; i++) {
