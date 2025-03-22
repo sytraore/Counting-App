@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import "../styles/gamePage.css";
@@ -18,6 +18,7 @@ import DialogBox from "../components/dialogBox";
 import {handleInteraction, handleNextClickTouchData} from '../helpers/imageTouchData';
 import { saveAnswers } from "../helpers/SaveAnswers";
 
+
 const gamePage = () => {
   const { Data, audioData, selectedOption } = useAppData();
   const { page } = useParams();
@@ -29,7 +30,15 @@ const gamePage = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [activeCookieId, setActiveCookieId] = useState(0);
   const [showGrayArea, setshowGrayArea] = useState(false);
-  const [isWiggling, setIsWiggling] = useState(false);
+
+  // state to handle the wiggling of the cookie
+  const [wigglingCookie, setWigglingCookie] = useState({});
+  
+  // state to handle the inteactivity of the user
+  const [userInteracted, setUserInteracted] = useState(false);
+  const inactivityTimeout = 5000; // 5 seconds
+  const wiggleDuration = 2000; // 2 seconds
+
   const spokenRef = useRef(false);
   const spokenRef2 = useRef(false);
   const once = useRef(false);
@@ -37,7 +46,12 @@ const gamePage = () => {
   const [modalShow, setModalShow] = useState(false);
   const [startAnimation, setstartAnimation] = useState(false);
   const [touchData, setTouchData] = useState([]);
-  const clickedCookies = new Set();
+
+  // state to count the number of cookies clicked
+  const [count, setCount] = useState(0);
+
+  // state to store the id's of cookies clicked
+  const clickedCookies = useRef(new Set());
 
   const handleAnimationFinish = () => {
     
@@ -88,6 +102,61 @@ const gamePage = () => {
   }
   };
 
+  // track user inactivity
+  const trackInactivity = useCallback(() => {
+    setUserInteracted(true);
+  }, [[userInteracted]]);
+  
+// handle case when user does not interact with the page
+  useEffect(() => {
+    let inactivityTimer;
+
+    const resetInactivityTimer = () => {
+      clearTimeout(inactivityTimer);
+      setUserInteracted(false);
+      inactivityTimer = setTimeout(() => {
+        // check if there are cookies on the page and if none have been clicked
+        if (Data.pages[currentPage] && Data.pages[currentPage].cookies && Data.pages[currentPage].cookies.length > 0 && clickedCookies.current.size === 0) {
+          // get first cookie id and add some animation to it
+          const cookieToWiggle = Data.pages[currentPage].cookies[0].id;
+          setWigglingCookie(prevstate => ({ ...prevstate, [cookieToWiggle]: true }));
+          setTimeout(() => {
+            setWigglingCookie(prevstate => ({ ...prevstate, [cookieToWiggle]: false }));
+          }, wiggleDuration);
+        }
+      }, inactivityTimeout);
+    };
+
+    // add event listeners to track user activity
+    document.addEventListener('click', () => {
+      trackInactivity();
+      resetInactivityTimer();
+    });
+
+    document.addEventListener('touchstart', () => {
+      trackInactivity();
+      resetInactivityTimer();
+    });
+
+    resetInactivityTimer();
+
+    return () => {
+      clearTimeout(inactivityTimer);
+      document.addEventListener('click', resetInactivityTimer);
+      document.addEventListener('touchstart', resetInactivityTimer);
+    }
+
+  }, [inactivityTimeout, wiggleDuration, activeCookieId, Data.pages, currentPage, trackInactivity]);
+
+  // handle case when user interacts with the page
+  useEffect(() => {
+    if (userInteracted) {
+      const cookieToWiggle = Data.pages[currentPage].cookies[0].id;
+      setWigglingCookie(prevstate => ({ ...prevstate, [cookieToWiggle]: false }));
+    }
+  }, [userInteracted]);
+
+
   useEffect(() => {
     if (!spokenRef.current) {
       speakUtterance();
@@ -116,89 +185,7 @@ const gamePage = () => {
   ? `Can Big Bird also have ${Data.pages[currentPage].cookies.length} cookies? Which tray has ${Data.pages[currentPage].cookies.length} cookies? Green or purple?`
   : `Cookie Monster has ${Data.pages[currentPage].cookies.length} cookies. Let's count together!`;
 
-    const moveCircle = (id, currentPage) => {
-      setIsWiggling(true)
-      setTimeout(() => {
-        setIsWiggling(false);
-      }, 2000);
-
-      
-      const totalCount = Data.pages[currentPage].cookies.length - 1;
-      const numericId = parseInt(id);
     
-      if (cookieCount <= totalCount) {
-        if (numericId === activeCookieId) {
-
-          const cookieElement = document.getElementById(id);
-          cookieElement.style.pointerEvents = 'none';
-          
-          if ("speechSynthesis" in window) {
-            const audioElement = new Audio();
-    
-            switch (id) {
-              case "1":
-                audioElement.src = audioData.trills[0];
-                break;
-              case "2":
-                audioElement.src = audioData.trills[1];
-                break;
-              case "3":
-                audioElement.src = audioData.trills[2];
-                break;
-              case "4":
-                audioElement.src = audioData.trills[3];
-                break;
-              case "5":
-                audioElement.src = audioData.trills[4];
-                break;
-              case "6":
-                audioElement.src = audioData.trills[5];
-                break;
-              case "7":
-                audioElement.src = audioData.trills[6];
-                break;
-              case "8":
-                audioElement.src = audioData.trills[7];
-                break;
-              case "9":
-                audioElement.src = audioData.trills[8];
-                break;
-              case "10":
-                audioElement.src = audioData.trills[9];
-                break;
-              default:
-                return;
-            }
-    
-            audioElement.play();
-    
-            if (cookieCount < totalCount) {
-              audioElement.onend = setTimeout(function () {
-                  setCookieCount((prevCount) => prevCount + 1);
-                  setActiveCookieId(numericId + 1);
-              }, 2200);
-            }
-            if (cookieCount === totalCount) {
-              audioElement.onend = setTimeout(function () {
-                  setCookieCount((prevCount) => prevCount + 1);
-              }, 2200);
-              const allCookies = document.querySelectorAll('.cookieContainer img');
-              allCookies.forEach(cookie => {
-                cookie.style.pointerEvents = 'auto';
-              });
-            }
-          } else {
-            console.error("SpeechSynthesis API is not supported in this browser.");
-          }
-        }
-      }
-      if (cookieCount === totalCount) {
-        setActiveCookieId(null);
-        setstartAnimation(true);      
-      }
-    };
-    
-
   const handleNextPage = () => {
     if (currentPage < 3) {
       setCookieCount(0)
@@ -208,6 +195,9 @@ const gamePage = () => {
       setActiveCookieId(0);
       setshowGrayArea(false);
       setSelectedTray(null);
+      setstartAnimation(false);
+      setCount(0);
+      clickedCookies.current.clear();
       spokenRef.current = false;
       spokenRef2.current = false;
       handleNextClickTouchData(touchData, "Touch", currentPage);
@@ -224,6 +214,9 @@ const gamePage = () => {
       setActiveCookieId(0);
       setshowGrayArea(false);
       setSelectedTray(null);
+      setstartAnimation(false);
+      setCount(0);
+      clickedCookies.current.clear();
       spokenRef.current = false;
       spokenRef2.current = false;
     }
@@ -246,6 +239,28 @@ const gamePage = () => {
   const handleTrayClick = (trayType) => {
     setSelectedTray(trayType);
     storeAnswer(currentPage, trayType);
+
+  };
+
+  // handle the click event on the cookie
+  const handleCookieClickWithColor = (cookieId) => {
+    const totalCount = Data.pages[currentPage].cookies.length;
+    // if the cookie has not been clicked before, add it to the set and increment the count
+    for (let i = 0; i <= totalCount; i++) {
+      if (!clickedCookies.current.has(cookieId)) {
+        clickedCookies.current.add(cookieId);
+        setCount(prevCount => {
+            const newCount = prevCount + 1;
+            textToSpeech(`${newCount}`);
+            setActiveCookieId(cookieId);
+            if (newCount === totalCount) {
+              setActiveCookieId(null);
+              setstartAnimation(true);
+            }
+            return newCount;
+        });
+      }
+    }
   };
 
   return (
@@ -268,9 +283,9 @@ const gamePage = () => {
                 key={cookie.id}
                 src={cookie.img}
                 id={cookie.id}
-                className={`${activeCookieId === cookie.id ? "circle" : ""} ${activeCookieId === cookie.id && isWiggling ? "wiggle" : ""}`}
+                className={`${wigglingCookie[cookie.id] ? "wiggle" : ""} ${clickedCookies.current.has(cookie.id) ? "clickedCookie" : ""}`}
                 alt={`Cookie ${cookie.id}`}
-                onClick={() => moveCircle(cookie.id.toString(), currentPage)}
+                onClick={() => handleCookieClickWithColor(cookie.id)}
                 style={{
                   position: "absolute",
                   top: cookie.top,
