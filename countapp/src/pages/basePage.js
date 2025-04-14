@@ -47,6 +47,72 @@ function BasePage() {
     setShowTray2(true);
   }
 
+
+    useEffect(() => {
+        if(!once.current){
+          document.addEventListener('touchstart', (event) => {
+            handleInteraction(event, setTouchData);
+          });
+    
+          once.current = true
+      
+          return () => {
+            document.removeEventListener('touchstart', (event) => {
+              handleInteraction(event, setTouchData);
+            });
+          };
+        }
+    }, []);
+
+    const storeAnswer = (answerKey, answerValue) => {
+      const storedAnswersJSON = localStorage.getItem('baselineTestAnswers');
+      const storedAnswersObject = storedAnswersJSON ? JSON.parse(storedAnswersJSON) : {};
+  
+      storedAnswersObject[answerKey] = answerValue;
+    
+      localStorage.setItem('baselineTestAnswers', JSON.stringify(storedAnswersObject));
+    };
+  
+    const handleTrayClick = (trayType) => {
+      setSelectedTray(trayType);
+      if (trayType === "greenTray") {
+        textToSpeech("Correct");
+      }
+      else{
+        textToSpeech("Incorrect");
+      }
+      storeAnswer(currentPage, trayType);
+    };
+
+    const handleNextPage = () => {
+      if (currentPage < 3) {
+        messageRef.current = false;
+        spokenRef.current = false;
+        setshowGrayArea(false);
+        setShowTray2(false);
+        setShowBigBird(false);
+        handleNextClickTouchData(touchData, "Baseline", currentPage);
+        setSelectedTray(null);
+        saveAnswers("baselineTest");
+      }
+    };
+  
+    const handlePreviousPage = () => {
+      if (currentPage > 0) {
+        messageRef.current = false;
+        spokenRef.current = false;
+        setshowGrayArea(false);
+        setShowTray2(false);
+        setShowBigBird(false);
+        setSelectedTray(null);
+      }
+    };
+
+    const setModelshow = () =>{
+      handleNextClickTouchData(touchData, "Baseline", currentPage);
+      setModalShow(true)
+    };
+
   useEffect(() => {
     if (!spokenRef.current) {
       speakUtterance();
@@ -54,56 +120,7 @@ function BasePage() {
     }
   }, [currentPage]);
 
-  useEffect(() => {
-    if (!once.current) {
-      document.addEventListener('touchstart', (event) => {
-        handleInteraction(event, setTouchData);
-      });
-      once.current = true;
-      return () => {
-        document.removeEventListener('touchstart', (event) => {
-          handleInteraction(event, setTouchData);
-        });
-      };
-    }
-  }, []);
-
-  const storeAnswer = (answerKey, answerValue) => {
-    const storedAnswersJSON = localStorage.getItem('baselineTestAnswers');
-    const storedAnswersObject = storedAnswersJSON ? JSON.parse(storedAnswersJSON) : {};
-    storedAnswersObject[answerKey] = answerValue;
-    localStorage.setItem('baselineTestAnswers', JSON.stringify(storedAnswersObject));
-  };
-
-  const handleTrayClick = (trayType) => {
-    setSelectedTray(trayType);
-    storeAnswer(currentPage, trayType);
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < 3) {
-      messageRef.current = false;
-      spokenRef.current = false;
-      setshowGrayArea(false);
-      setShowTray2(false);
-      setShowBigBird(false);
-      handleNextClickTouchData(touchData, "Baseline", currentPage);
-      setSelectedTray(null);
-      saveAnswers("baselineTest");
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      messageRef.current = false;
-      spokenRef.current = false;
-      setshowGrayArea(false);
-      setShowTray2(false);
-      setShowBigBird(false);
-      setSelectedTray(null);
-    }
-  };
-
+  
   const setModelshow = () => {
     handleNextClickTouchData(touchData, "Baseline", currentPage);
     setModalShow(true);

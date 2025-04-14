@@ -54,6 +54,26 @@ function BasePage() {
     }
   }, [currentPage]);
 
+
+      useEffect(() => {
+        console.log("Current Page:", currentPage);
+        console.log("Green Tray Biscuits:", sectionTrainData.pages[currentPage].greenTray[0].biscuits);
+        console.log("Purple Tray Biscuits:", sectionTrainData.pages[currentPage].purpleTray[0].biscuits);
+      }, [currentPage, sectionTrainData]);
+
+      const storeAnswer = (answerKey, answerValue) => {
+        const storedAnswersJSON = localStorage.getItem('baselineTrainingAnswers');
+        const storedAnswersObject = storedAnswersJSON ? JSON.parse(storedAnswersJSON) : {};
+    
+        storedAnswersObject[answerKey] = answerValue;
+      
+        localStorage.setItem('baselineTrainingAnswers', JSON.stringify(storedAnswersObject));
+      };
+    
+      const handleTrayClick = (trayType) => {
+        setSelectedTray(trayType);
+        storeAnswer(currentPage, trayType);
+
   useEffect(() => {
     if (!once.current) {
       document.addEventListener('touchstart', (event) => {
@@ -64,16 +84,12 @@ function BasePage() {
         document.removeEventListener('touchstart', (event) => {
           handleInteraction(event, setTouchData);
         });
+
       };
     }
   }, []);
 
-  const storeAnswer = (answerKey, answerValue) => {
-    const storedAnswersJSON = localStorage.getItem('baselineTrainingAnswers');
-    const storedAnswersObject = storedAnswersJSON ? JSON.parse(storedAnswersJSON) : {};
-    storedAnswersObject[answerKey] = answerValue;
-    localStorage.setItem('baselineTrainingAnswers', JSON.stringify(storedAnswersObject));
-  };
+  
 
   const handleTrayClick = (trayType) => {
     setSelectedTray(trayType);
@@ -144,80 +160,99 @@ function BasePage() {
             </div>
           </div>
         </div>
-        <div className="col-8 position-absolute tray-container">
-          {showTray2 && (
-            <div>
-              <div
-                className={`tray-overlay1 ${selectedTray === "greenTray" ? "glow1" : ""}`}
-                onClick={() => handleTrayClick("greenTray")}
-              />
+
+        <div className="cookieContainer position-absolute">
+          {sectionTrainData.pages[currentPage].cookies.length > 0 ? (
+            sectionTrainData.pages[currentPage].cookies.map((cookie) => (
               <img
-                src={greenTray}
-                alt="greentray"
-                className="tray2"
-                id="greenTray"
-                key="greenTray"
+                key={cookie.id}
+                src={cookie.img}
+                id={cookie.id}
+                alt={`Cookie ${cookie.id}`}
+                style={{
+                  position: "absolute",
+                  top: cookie.top,
+                  left: cookie.left,
+                }}
               />
-              <div className="greenBiscuits position-absolute">
-                {sectionTrainData.pages[currentPage].greenTray[0].biscuits.map((biscuit) => (
-                  <img
-                    key={biscuit.id}
-                    src={biscuit.img}
-                    id={biscuit.id}
-                    className="biscuits"
-                    style={{
-                      position: "absolute",
-                      top: biscuit.top,
-                      left: biscuit.left,
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-          {showTray2 && (
-            <div>
-              <div
-                className={`tray-overlay2 ${selectedTray === "purpleTray" ? "glow2" : ""}`}
-                onClick={() => handleTrayClick("purpleTray")}
-              />
-              <img
-                src={purpleTray}
-                className="tray3"
-                id="purpleTray"
-                key="purpleTray"
-                alt="purpletray"
-              />
-              <div className="greenBiscuits position-absolute">
-                {sectionTrainData.pages[currentPage].purpleTray[0].biscuits.map((biscuit) => (
-                  <img
-                    key={biscuit.id}
-                    src={biscuit.img}
-                    id={biscuit.id}
-                    className="biscuits"
-                    style={{
-                      position: "absolute",
-                      top: biscuit.top,
-                      left: biscuit.left,
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-          {showBigBird && (
-            <img src={BigBird} className="bigBird" id="bigBird" key="bigBird" alt="bigbird" />
+            ))
+          ) : (
+            <p></p>
           )}
         </div>
-        <div className="buttons">
-          {currentPage > 0 ? (
-            <button onClick={handlePreviousPage}>
-              <Link to={`/game/base/training/${currentPage - 1}`}>
-                <ArrowBackIosIcon />
-              </Link>
-            </button>
-          ) : (
-            <button disabled>
+        </div>
+      </div>
+      <div className="col-8 position-absolute tray-container">
+        {showTray2 && (
+          <div>
+            <div
+              className={`tray-overlay1 ${selectedTray === "greenTray" ? "glow1" : ""}`}
+              onClick={() => handleTrayClick("greenTray")}
+            />
+            <img
+              key="greenTray"
+              src={greenTray}
+              id="greenTray"
+              className="tray2"
+              alt="greentray"
+            />
+            <div className="greenBiscuits position-absolute">
+              {sectionTrainData.pages[currentPage].greenTray[0].biscuits.map((biscuit) => (
+                <img
+                  key={biscuit.id}
+                  src={biscuit.img}
+                  id={biscuit.id}
+                  className="biscuits"
+                  style={{
+                    position: "absolute",
+                    top: biscuit.top,
+                    left: biscuit.left,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {showTray2 && (
+          <div> 
+            <div
+              className={`tray-overlay2 ${selectedTray === "purpleTray" ? "glow2" : ""}`}
+              onClick={() => handleTrayClick("purpleTray")}
+            />      
+            <img
+              key="purpleTray"
+              src={purpleTray}
+              id="purpleTray"
+              className="tray3"
+              alt="purpletray"                 
+            />
+            <div className="purpleBiscuits position-absolute">
+              {sectionTrainData.pages[currentPage].purpleTray[0].biscuits.map((biscuit) => (
+                <img
+                  key={biscuit.id}
+                  src={biscuit.img}
+                  id={biscuit.id}
+                  className="biscuits"
+                  style={{
+                    position: "absolute",
+                    top: biscuit.top,
+                    left: biscuit.left,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {showBigBird && (
+          <img src={BigBird} className="bigBird" id="bigBird" key="bigBird" alt="bigbird"/>
+        )}
+      </div>
+
+      <div className="buttons">
+        {currentPage > 0 ? (
+          <button onClick={handlePreviousPage}>
+            <Link to={`/game/base/training/${currentPage - 1}`}>
+        
               <ArrowBackIosIcon />
             </button>
           )}
