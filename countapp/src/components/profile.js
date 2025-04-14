@@ -1,17 +1,15 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import '../styles/profile.css';
-import profileicon from '../assests/profileicon.png'
+import profileicon from '../assests/profileicon.png';
 
 // Display user profile and handle logout
-function profile({name}) {
+function Profile({ name }) {
+  const navigate = useNavigate(); // Hook to navigate programmatically
 
-  const navigate = useNavigate(); // Hook to naviage programmaticly()
-
-  // handle logout logic
+  // Handle logout logic
   const handleLogout = (callback) => {
-    window.localStorage.clear(); // clear local storage
+    window.localStorage.clear(); // Clear local storage
     if (typeof callback === 'function') {
       callback();
     }
@@ -19,7 +17,7 @@ function profile({name}) {
 
   const handleLogoutClick = () => {
     handleLogout(() => {
-      navigate('/'); // navigate to home page after logout
+      navigate('/'); // Navigate to home page after logout
     });
   };
 
@@ -27,13 +25,13 @@ function profile({name}) {
     <div>
       <div className="container">
         <div className="card p-4 profileCard">
-          <div className=" profileimage d-flex flex-column">
+          <div className="profileimage d-flex flex-column">
             <button className="btn btn-secondary">
-              <img src={profileicon} height="100" />
+              <img src={profileicon} height="100" alt="Profile Icon" />
             </button>
             <span className="name mt-3">{name}</span>
-            <div className=" d-flex mt-2">
-            <button className="btn1 btn-dark" onClick={handleLogoutClick}><Link to="/">Log Out</Link></button>
+            <div className="d-flex mt-2">
+              <button className="btn1 btn-dark" onClick={handleLogoutClick}>Log Out</button>
             </div>
           </div>
         </div>
@@ -42,4 +40,5 @@ function profile({name}) {
   );
 }
 
-export default profile;
+export default Profile;
+

@@ -1,6 +1,9 @@
 import { generateDynamicTray } from "./trayGenerators";
 import { generateStaticTray } from "./trayGenerators";
 
+import seashellCookie from "../assests/seashellCookie.png";
+import multiCookie from "../assests/multiCookie.png";
+
 export function generateTrainingData() {
 
     // Default values
@@ -91,7 +94,7 @@ export function generateTrainingData() {
       ],
       cookies: leftTrayCookies.map((cookie, index) => ({
         id: index,
-        img: require("../assests/seashellCookie.png"),
+        img: seashellCookie,
         top: cookie.top,
         left: cookie.left
       })),
@@ -99,7 +102,7 @@ export function generateTrainingData() {
         {
           biscuits: greenTrayCookies.map((cookie, index) => ({
             id: index,
-            img: require("../assests/multiCookie.png"),
+            img: multiCookie,
             top: cookie.top,
             left: cookie.left
           }))
@@ -109,7 +112,7 @@ export function generateTrainingData() {
         {
           biscuits: purpleTrayCookies.map((cookie, index) => ({
             id: index,
-            img: require("../assests/multiCookie.png"),
+            img: multiCookie,
             top: cookie.top,
             left: cookie.left
           }))

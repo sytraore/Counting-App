@@ -19,7 +19,6 @@ import SelectValuesPage from './pages/selectValuesPage.js';
 import TrainingPage from './pages/trainPage.js';
 import { SoundProvider } from './helpers/SoundContext';
 import { AppDataProvider } from './context/Context.js';
-import STTTest from './pages/sttTest.js';
 import './App.css';
 
 function App() {
@@ -40,7 +39,7 @@ function App() {
       <AppDataProvider>
       <Router>
         <Routes>
-          <Route path='/' element={isLoggedIn == "true"? <Home /> : <SignupPage />}/>
+          <Route path='/' element={isLoggedIn === "true"? <Home /> : <SignupPage />}/>
           <Route path='/game/selection' element={<SelectorPage />}/>
           <Route path='/game/values' element={<SelectValuesPage />}/>
           <Route path='/game/home/:option' element={<Home />}/>
