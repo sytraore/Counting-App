@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { textToSpeech } from '../helpers/textToSpeech';
 
+// Canvas component to handle drawing on canvas
 function Canvas({ onAnimationFinish }) {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [circlePath, setCirclePath] = useState([]);
 
+  // Start drawing on canvas
   const startDrawing = (e) => {
     setIsDrawing(true);
     const canvas = canvasRef.current;
@@ -19,7 +21,7 @@ function Canvas({ onAnimationFinish }) {
     context.moveTo(x, y);
     setCirclePath([{x, y}]); // Store the starting point of the circle
   };
-
+  // draw on canvas
   const draw = (e) => {
     if (isDrawing) {
       const canvas = canvasRef.current;
@@ -29,13 +31,14 @@ function Canvas({ onAnimationFinish }) {
       const { left, top } = canvas.getBoundingClientRect();
       const x = clientX - left;
       const y = clientY - top;
-      context.strokeStyle = '#0FF0FC';
-      context.lineWidth = 20;
+      context.strokeStyle = '#0FF0FC'; // stroke color
+      context.lineWidth = 20; // line width
       context.lineTo(x, y);
       context.stroke();
       setCirclePath((prevPath) => [...prevPath, {x, y}]); // Store the path of the circle
     }
   };
+
 
   
     
@@ -68,8 +71,11 @@ function Canvas({ onAnimationFinish }) {
       console.log('Average Radius:', avgRadius, 'Radius Variance:', radiusVariance);
     
       return radiusVariance < 15; // Adjust the threshold as needed
-    };
+   };
   
+
+  // stop drawing on canvas
+
   const stopDrawing = () => {
     setIsDrawing(false);
     // display animation finish if user draws a circle
