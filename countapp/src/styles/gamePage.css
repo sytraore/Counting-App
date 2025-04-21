@@ -71,7 +71,7 @@
 .clickedCookie {
   border: 4px solid yellow;
   border-radius: 50%; 
-  box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.5);
+  /* box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.5); */
 }
 
 .animationContainer {
@@ -155,6 +155,8 @@
 }
 
 .tray2, .tray3 {
+  /* position: absolute; */
+
   height: 390px;
   width: auto;
   margin-left: 10px;
@@ -174,12 +176,16 @@
 }
 
 .greenBiscuits{
+  /* position: absolute; */
+
   height: 390px;
   width: 281.1px;
-  top: 0%;
+  top: 0;
 }
 
 .purpleBiscuits{
+  /* position: absolute; */
+
   height: 390px;
   width: 281.1px;
   top: 5%;
@@ -205,6 +211,8 @@
 }
 
 .tray-overlay1 {
+  /* position: relative; */
+
   position: absolute;
   top: 0;
   width:272px;
@@ -216,6 +224,8 @@
 }
 
 .tray-overlay2 {
+  /* position: relative; */
+
   position: absolute;
   top: 0;
   width:272px;

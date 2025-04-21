@@ -56,14 +56,14 @@
 }
 
 .tray-container {
-  /* position: absolute;
+  position: absolute;
   display: flex;
   align-items: flex-start;
-  justify-content: flex-end; */
+  justify-content: flex-end;
   top: 5%;
   right: 5%;
   margin-left: 20px;
-  /* transform: translateX(20%); */
+  transform: translateX(20%);
 }
 
 .tray2

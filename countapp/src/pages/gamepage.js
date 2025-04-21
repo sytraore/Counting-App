@@ -378,7 +378,7 @@ const gamePage = () => {
                   key="purpleTray"
                   alt="purpletray"
                 />
-              <div className="purpleBiscuits position-absolute">
+              <div className="greenBiscuits position-absolute">
               {Data.pages[currentPage].purpleTray[0].biscuits.map((biscuit) => (
                 <img
                   key={biscuit.id}
