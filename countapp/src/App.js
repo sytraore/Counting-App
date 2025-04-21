@@ -39,8 +39,9 @@ function App() {
       <AppDataProvider>
       <Router>
         <Routes>
-          <Route path='/' element={isLoggedIn == "true"? <Home /> : <SignupPage />}/>
+          <Route path='/' element={isLoggedIn === "true"? <Home /> : <SignupPage />}/>
           <Route path='/game/selection' element={<SelectorPage />}/>
+          <Route path='/game/values' element={<SelectValuesPage />}/>
           <Route path='/game/home/:option' element={<Home />}/>
           <Route path='/game/touch2/play/:page' element={<PrevGamePage />}/>  {/* Add a route to the original touch task component*/}
           <Route path='/game/touch/play/:page' element={<GamePage />}/>   {/* Add a route to the updated and improved touch task component*/}
@@ -63,4 +64,5 @@ function App() {
   );
 }
 
+// Export the App componet
 export default App;
