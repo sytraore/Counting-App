@@ -77,6 +77,8 @@ function Canvas({ onAnimationFinish }) {
   // stop drawing on canvas
 
   const stopDrawing = () => {
+    // check for isDrawing state
+    if (!isDrawing) return;
     setIsDrawing(false);
     // display animation finish if user draws a circle
     console.log('Circle Path:', circlePath); // Log the path for debugging
